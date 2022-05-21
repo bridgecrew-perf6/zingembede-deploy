@@ -1,0 +1,25 @@
+@use '../../styles/'as *;
+
+.chartzing-v2-container {
+    width: 1260px;
+    height: 300px;
+    position: relative;
+
+
+    .under-chart {
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to top, rgba(40, 40, 40, 0.9), rgba(40, 40, 40, 0.9)),
+            url('https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.6.23/static/media/bg-chart.fd766403.jpg');
+        filter: grayscale(1);
+    }
+
+    .chart-line {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        filter: grayscale(0) !important;
+    }
+}

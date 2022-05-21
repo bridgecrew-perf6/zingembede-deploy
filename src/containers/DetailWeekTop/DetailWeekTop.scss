@@ -1,0 +1,74 @@
+@use '../../styles/' as *;
+
+.detail-week-top-container {
+    margin: 110px 15% 0px;
+    height: calc(100vh - 110px);
+    position: relative;
+    overflow: hidden;
+
+
+    .bg-5 {
+        height: 70%;
+        background-image: url('https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.6.24/static/media/week-chart-bg.edf332e5.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        filter: grayscale(1);
+    }
+
+    .bg-gradient {
+        height: 100%;
+        width: 100%;
+        background-image: linear-gradient(to top, rgb(26, 20, 36) 35%, rgba(26, 20, 36, 0.7));
+        position: absolute;
+        top: 0;
+        z-index: 2;
+    }
+
+    .contents {
+        position: absolute;
+        top: 0;
+        z-index: 3;
+        padding: 32px;
+        width: 100%;
+
+        .title-week-top {
+            font-size: 35px;
+            margin-bottom: 32px;
+        }
+
+        .country {
+            @include flex(flex-start, center);
+            position: relative;
+
+            .item-country {
+                padding-bottom: 16px;
+                width: 100px;
+                font-size: 25px;
+                text-align: center;
+                cursor: pointer;
+
+            }
+
+            .line {
+                width: 100px;
+                height: 5px;
+                border-radius: 2.5px;
+                background-color: rgb(255, 255, 255);
+                position: absolute;
+                top: 100%;
+                transition: all 0.3s ease-out;
+
+            }
+        }
+
+        .play-list {
+            width: 100%;
+            padding-top: 32px;
+
+            // .scroll-playlist {
+            //     width: 100%;
+            // }
+
+        }
+    }
+}

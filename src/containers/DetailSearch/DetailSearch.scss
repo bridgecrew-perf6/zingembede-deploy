@@ -1,0 +1,88 @@
+@use "../../styles/" as *;
+
+.detail-search-container {
+    width: 1260px;
+    margin: 100px auto 32px;
+    .header {
+        padding-bottom: 8px;
+        margin: 32px 0 16px;
+        font-size: 24px;
+        border-bottom: 1px solid rgb(129, 113, 131);
+    }
+    .content-search {
+        .top-search {
+            h3 {
+                margin-bottom: 16px;
+                span {
+                    font-weight: 300;
+                    font-style: italic;
+                }
+            }
+            .box-top-search {
+                @include flex(flex-start, flex-start);
+                width: 40%;
+                padding: 8px;
+                background-color: rgb(78, 77, 77);
+                box-shadow: 0 0 5px rgb(47, 59, 92);
+                border-radius: 5px;
+
+                .wrap-img {
+                    height: 100px;
+                    width: 20%;
+                    margin-right: 16px;
+                    img {
+                        border-radius: 5px;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        &:hover {
+                            opacity: 1;
+                            transform: scale(1);
+                        }
+                    }
+                }
+                .info {
+                    width: 70%;
+                    .name {
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    .artist {
+                        opacity: 0.7;
+                        font-size: 14px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                    .play-btn {
+                        padding: 4px 16px;
+                        margin-top: 8px;
+                        width: 100px;
+                        border: 1px solid #ccc;
+                        border-radius: 21px;
+                        cursor: pointer;
+                        text-align: center;
+                        &:hover {
+                            background-color: rgb(148, 142, 142);
+                        }
+                    }
+                }
+            }
+        }
+        .songs {
+            margin-top: 32px;
+            h3 {
+                margin-bottom: 8px;
+            }
+        }
+        .playlist-album {
+            margin: 32px -32px;
+            h3 {
+                margin-bottom: 0px;
+                padding: 0 16px;
+            }
+        }
+    }
+}

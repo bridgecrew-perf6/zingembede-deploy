@@ -1,0 +1,89 @@
+@use '../styles/' as *;
+@import url('https://fonts.googleapis.com/css2?family=Anek+Latin:wght@300;400&display=swap');
+
+//reset css
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+
+  @include moblie {
+    font-size: 60%;
+  }
+
+  @include tablet {
+    font-size: 80%;
+  }
+}
+
+body {
+  font-family: $font-family;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: $bg-color;
+  color: $txt-color;
+
+}
+
+i[class*="fa"] {
+  font-size: 22px;
+  margin: 0 8px;
+}
+
+input {
+  border: none;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.opty-5 {
+  opacity: 0.5;
+}
+
+@media (hover: hover) {
+  img:hover {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+
+}
+
+.search {
+  @include flex(center, flex-start)
+}
+
+
+.content-main {
+  position: relative;
+
+  .left-sidebar {
+    height: 100vh;
+    width: 15%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    background-color: rgb(33, 33, 33);
+  }
+
+  .right-sidebar {
+    height: 100vh;
+    width: 15%;
+    position: fixed;
+    right: 0px;
+    top: 0;
+    z-index: 9;
+    background-color: rgb(33, 33, 33);
+  }
+}
+
+.thumb-vertical {
+  background-color: #ccc;
+  border-radius: 5px;
+}

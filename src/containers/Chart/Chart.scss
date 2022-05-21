@@ -1,0 +1,121 @@
+@use '../../styles/'as *;
+
+.chartzing-container {
+    width: 1230px;
+    margin-bottom: 32px;
+    // border: 1px solid red;
+    @include flex(space-between, center);
+    background-image: linear-gradient(to top, rgba(47, 23, 76, 0.9), rgba(120, 12, 147, 0.9)),
+        url('https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.6.23/static/media/bg-chart.fd766403.jpg');
+    padding: 32px;
+    border-radius: $border-radius;
+    gap: 16px;
+
+    .top-song {
+        @include flex(center, flex-start);
+        flex-direction: column;
+        width: 35%;
+
+        .name-title {
+            font-size: 25px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            cursor: pointer;
+
+            &:hover {
+                color: #ff8181
+            }
+        }
+
+        .box-top-song {
+            @include flex(space-between, center);
+            width: 100%;
+            border-radius: 5px;
+            margin: 8px 0;
+            padding: 8px 16px 8px 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(187, 183, 183, 0.5);
+            }
+
+            .left-top-song {
+                @include flex(flex-start, center);
+
+                .rank {
+                    padding: 0 24px;
+                    color: #7D408E;
+                }
+
+                .wrap-avtar {
+                    width: 50px;
+                    height: 50px;
+
+                    img {
+                        width: 100%;
+                        object-fit: cover;
+                        border-radius: 5px;
+                    }
+                }
+
+                .info-song {
+                    margin: 0 8px;
+
+                    .artist {
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            &:nth-child(2) {
+                .left-top-song {
+                    .rank {
+                        font-size: 30px;
+                        text-shadow: 1px 1px 0 orange, -1px 1px 0 orange, -1px -1px 0 orange, 1px -1px 0 orange;
+                        // stroke-width: 0.5;
+                    }
+
+                }
+            }
+
+            &:nth-child(3) {
+                .left-top-song {
+                    .rank {
+                        font-size: 24px;
+                        text-shadow: 1px 1px 0 rgb(57, 174, 241), -1px 1px 0 rgb(57, 174, 241), -1px -1px 0 rgb(57, 174, 241), 1px -1px 0 rgb(57, 174, 241);
+                    }
+                }
+            }
+
+            &:nth-child(4) {
+                .left-top-song {
+                    .rank {
+                        font-size: 18px;
+                        text-shadow: 1px 1px 0 yellow, -1px 1px 0 yellow, -1px -1px 0 yellow, 1px -1px 0 yellow;
+                    }
+                }
+            }
+        }
+
+        .see-more {
+            margin-top: 16px !important;
+            padding: 10px 32px;
+            margin: auto;
+            border: 1px solid #fff;
+            border-radius: 29px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #ccc;
+                color: #7D408E;
+            }
+        }
+    }
+
+    .chart-line {
+        width: 65% !important;
+        height: 300px;
+        padding-top: 16px;
+    }
+}

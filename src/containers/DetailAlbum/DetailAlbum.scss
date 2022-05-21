@@ -1,0 +1,330 @@
+@use '../../styles/' as *;
+
+.detail-album-container {
+    @include flex(center, center);
+    flex-direction: column;
+    margin-bottom: 150px;
+
+    .content-detail-album-container {
+        width: 1260px;
+        margin: 100px auto 32px;
+        @include flex(space-between, none);
+
+        .under-cd {
+            width: 30%;
+            height: 500px;
+        }
+
+        .cd-thubmail {
+            width: 20%;
+            @include flex(center, center);
+            flex-direction: column;
+            position: fixed;
+            top: 116px;
+
+            .cd-border {
+                width: 100%;
+                position: relative;
+
+                .buttons-overwritten {
+                    position: absolute;
+                    z-index: 3;
+                    top: 45%;
+                    left: 40%;
+
+                    i {
+                        font-size: 35px;
+                    }
+
+                    &:hover+img {
+                        opacity: 0.5;
+                        transform: scale(1.2);
+                    }
+                }
+
+
+                .cd-wrap {
+                    width: calc(100% - 16px);
+                    height: 362px;
+                    overflow: hidden;
+                    border-radius: $border-radius;
+                    cursor: pointer;
+
+                    &.actived {
+                        border-radius: 50%;
+                        animation: rotateCD 10s linear infinite;
+
+                    }
+
+                    &.effect-boder {
+                        // border-radius: $border-radius;
+                        animation: rotateCDBack 1s linear;
+                        animation-fill-mode: forwards;
+                    }
+
+
+
+                    img {
+                        width: 100%;
+                        object-fit: cover;
+                        transition: transform .3s ease-out;
+
+
+                    }
+                }
+            }
+
+            .title-cd {
+                padding-top: 16px;
+                font-size: 20px;
+                font-weight: 600;
+            }
+
+            .wrap-info-album {
+                @include flex(center, center);
+                flex-direction: column;
+                padding: 0 16px;
+                font-size: 14px;
+                // opacity: 0.5;
+                line-height: 1.6;
+                position: relative;
+
+
+
+                .artists {
+                    text-align: center;
+                }
+
+                .like-count {
+                    i {
+                        font-size: 12px;
+                        color: #ff0000;
+                        opacity: 1 !important;
+                        margin-right: 4px;
+                    }
+                }
+
+                .like {
+                    font-size: 14px;
+                    border: 1px solid #ccc;
+                    border-radius: 12px;
+                    padding: 0 8px;
+                    cursor: pointer;
+
+                }
+
+                .dislike {
+                    cursor: pointer;
+                }
+            }
+
+            .custom-play {
+                padding: 10px 20px;
+                margin: 16px 0;
+                font-size: 14px;
+                border-radius: 17.5px;
+                background-color: $main-color;
+                border: none;
+                color: #fff;
+                cursor: pointer;
+
+                // line-height: 42px;
+                i {
+                    font-size: 14px;
+                }
+
+                &:hover {
+                    background-color: #560277;
+                }
+            }
+
+
+        }
+
+        .list-music {
+            width: 70%;
+            padding-left: 16px;
+
+            .header-playlist {
+                width: 100%;
+                margin-top: 24px;
+                @include flex(none, center);
+
+                span {
+                    &:first-child {
+                        width: 40%;
+                    }
+
+                    &:nth-child(2) {
+                        width: 30%;
+                        text-align: center
+                    }
+
+                    &:last-child {
+                        width: 30%;
+                        text-align: right
+                    }
+                }
+            }
+
+            .box-song {
+                @include flex(none, center);
+                padding: 8px 0;
+                border-bottom: 1px solid rgb(94, 93, 93);
+                padding-right: 16px;
+                cursor: pointer;
+                position: relative;
+
+                &:hover {
+                    background-color: rgba(48, 48, 48, 0.5);
+                }
+
+                &.selected-song {
+                    background-color: rgba(48, 48, 48, 0.5);
+                }
+
+
+                .wrap-img-song {
+                    @include flex(flex-start, center);
+                    width: 40%;
+
+                    i {
+                        font-size: 14px;
+                    }
+
+                    .box-img {
+                        width: 45px;
+                        height: 45px;
+                        border-radius: 5px;
+                        overflow: hidden;
+
+                        img {
+                            width: 100%;
+                            object-fit: cover;
+                            transition: transform 0.3s ease-out;
+
+
+                            &:hover {
+                                transform: scale(1);
+                            }
+                        }
+                    }
+
+                    .info-song {
+                        margin-left: 8px;
+
+                        .artist-song {
+                            font-size: 14px;
+                        }
+                    }
+
+                }
+
+                .album-detail {
+                    width: 30%;
+                    text-align: center;
+                }
+
+                .time-song {
+                    width: 30%;
+                    text-align: right;
+
+                }
+
+                small {
+                    width: 30%;
+                    text-align: right;
+
+                    i {
+                        font-size: 12px;
+                        display: inline-block;
+                        padding: 8px;
+
+                        &:hover {
+                            background-color: rgb(117, 117, 117);
+                            border-radius: 13.5px;
+                        }
+                    }
+                }
+
+                .pop-up-playlist {
+                    position: absolute;
+                    right: 5%;
+                    top: 0;
+                    z-index: 10;
+                    background-color: rgb(73, 72, 72);
+                    color: rgb(245, 245, 245);
+                    min-width: 150px;
+                    box-shadow: 0 0 2px #ccc;
+
+                    .header-popup {
+                        border-bottom: 1px solid #ccc;
+                        padding: 16px 16px 8px;
+                    }
+
+                    .item {
+                        padding: 4px 16px;
+
+                        &:hover {
+                            background-color: rgb(85, 85, 85);
+                        }
+                    }
+
+                    &::after {
+                        content: '';
+                        background-color: transparent;
+                        width: 50px;
+                        height: 50px;
+                        position: absolute;
+                        top: 0;
+                        right: -50px;
+                    }
+                }
+
+            }
+
+            .total {
+                padding-left: 16px;
+                padding-top: 16px;
+                opacity: 0.5;
+            }
+        }
+    }
+}
+
+@keyframes rotateCD {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotateCDBack {
+    0% {
+        transform: rotate(0);
+        border-radius: 50%;
+    }
+
+    25% {
+        transform: rotate(360deg);
+        border-radius: 50%;
+    }
+
+    55% {
+        transform: rotate(720deg);
+        border-radius: 50%;
+    }
+
+    75% {
+        transform: rotate(1080deg);
+        border-radius: 50%;
+    }
+
+    100% {
+        transform: rotate(1080deg);
+        border-radius: $border-radius;
+    }
+}

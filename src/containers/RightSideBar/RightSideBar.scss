@@ -1,0 +1,87 @@
+@use '../../styles/' as *;
+
+.right-sidebar-container {
+    width: 100%;
+
+    .recent-title {
+        padding: 40px 16px 16px;
+    }
+
+    .recent-content {
+        padding: 0px 16px;
+        width: 100%;
+
+        .content {
+            width: 100%;
+
+            .box-song {
+                @include flex(none, center);
+                border-bottom: 1px solid rgb(94, 93, 93);
+                cursor: pointer;
+                width: 100%;
+                padding: 8px 0 0;
+
+                &:hover {
+                    background-color: rgb(94, 93, 93);
+                }
+
+                &.selected-song {
+                    background-color: rgb(94, 93, 93);
+                }
+
+
+                .wrap-img-song {
+                    @include flex(flex-start, center);
+                    width: 100%;
+
+                    .box-img {
+                        width: 45px;
+                        height: 45px;
+                        border-radius: 5px;
+                        overflow: hidden;
+
+                        img {
+                            width: 100%;
+                            object-fit: cover;
+                            transition: transform 0.3s ease-out;
+
+
+                            &:hover {
+                                transform: scale(1);
+                            }
+                        }
+                    }
+
+                    .info-song {
+                        margin-left: 8px;
+                        width: calc(100% - 53px);
+
+                        .title-song {
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            width: 100%;
+                        }
+
+                        .artist-song {
+                            font-size: 14px;
+                        }
+                    }
+
+                }
+
+                .album-detail {
+                    width: 30%;
+                    text-align: center;
+                }
+
+                .time-song {
+                    width: 30%;
+                    text-align: right;
+
+                }
+
+            }
+        }
+    }
+}

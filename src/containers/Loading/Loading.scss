@@ -1,0 +1,64 @@
+@use '../../styles/' as *;
+
+.loading-ontainer {
+    width: 200px;
+    height: 200px;
+    position: relative;
+
+    .bubble {
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 81% 25%, white, #EC9DAE 8%, black 70%);
+        border-radius: 50%;
+        box-shadow: inset 2px -1px 10px rgb(255, 255, 255);
+        animation: bubble 2s ease-in-out infinite;
+        @include flex(center, center);
+
+        span {
+            color: #07c2af;
+        }
+
+    }
+
+    .shadow {
+        width: 100%;
+        height: 50%;
+        border-radius: 50%;
+        position: absolute;
+        top: 105%;
+        right: 55px;
+        background: rgba(0, 0, 0, 0.5);
+        animation: shadow 2s ease-in-out infinite;
+    }
+}
+
+@keyframes shadow {
+    0% {
+        transform: scale(1);
+        right: 55px;
+    }
+
+    50% {
+        transform: scale(0.2);
+        right: 0;
+    }
+
+    0% {
+        transform: scale(1);
+        right: 55px;
+    }
+}
+
+@keyframes bubble {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(50px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,54 @@
+@use '../../styles/'as *;
+
+.detail-chart-container {
+    @include flex(center, flex-start);
+    flex-direction: column;
+    margin: 0px 13% 150px;
+    padding: 90px 4% 0;
+    background-color: rgb(36, 36, 36);
+
+    .chart-sectio {
+        .zing-chart-title {
+            font-size: 35px;
+            padding: 32px 0px;
+
+            i {
+                color: #7D408E;
+                font-size: 35px;
+                margin-left: 8px;
+                cursor: pointer;
+
+                &.fa {
+                    background-image: radial-gradient(at center, white 40%, transparent 0%);
+                }
+
+                &:hover {
+                    color: #732788;
+                }
+            }
+        }
+    }
+
+    .top-100-section {
+        @include flex(none, center);
+        flex-direction: column;
+        margin: 32px 0;
+        width: 100%;
+
+
+        .see-more {
+            margin: 32px 0;
+            border: 1px solid white;
+            padding: 8px 24px;
+            border-radius: 29px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #ccc;
+                color: black;
+            }
+        }
+    }
+
+
+}

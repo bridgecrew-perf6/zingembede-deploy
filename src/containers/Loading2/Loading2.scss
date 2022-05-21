@@ -1,0 +1,12 @@
+@use '../../styles/' as *;
+
+.loading2-container {
+    position: fixed;
+    z-index: 1500;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    @include flex(center, center)
+}

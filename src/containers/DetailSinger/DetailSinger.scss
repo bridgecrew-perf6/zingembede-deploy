@@ -1,0 +1,248 @@
+@use "../../styles/" as *;
+
+.detail-singer-container {
+    margin: 110px 15% 32px;
+    // border: 1px solid red;
+
+    .show-profile {
+        position: relative;
+
+        .bg-img {
+            width: 100%;
+            height: 425px;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                opacity: 0.5;
+
+                &:hover {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+        }
+
+        .info-singer {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+
+            .left-info {
+                width: 40%;
+                text-shadow: 0 0 2px rgb(98, 0, 255);
+                position: absolute;
+                bottom: 10%;
+                padding-left: 32px;
+
+                .name {
+                    font-size: 42px;
+                }
+
+                .see-more {
+                    padding: 4px 16px;
+                    border: 1px solid #fff;
+                    display: inline-block;
+                    width: 100px;
+                    text-align: center;
+                    border-radius: 17px;
+                    margin-top: 8px;
+                    cursor: pointer;
+                    margin-right: 16px;
+                    margin-top: 16px;
+
+                    &:hover {
+                        background-color: rgb(228, 153, 56);
+                    }
+                }
+
+                span {
+                    cursor: pointer;
+
+                    i {
+                        font-size: 14px;
+                        color: rgb(13, 172, 21);
+                    }
+                }
+            }
+
+            .right-info {
+                width: 50%;
+                position: absolute;
+                top: 20%;
+                right: 32px;
+
+                .avatar {
+                    width: 300px;
+                    height: 300px;
+                    position: absolute;
+                    right: 0;
+
+                    img {
+                        width: 100%;
+                        object-fit: cover;
+                        border-radius: 50%;
+
+                        &:hover {
+                            opacity: 1;
+                            transform: scale(1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .content-singer {
+        @include flex(center, center);
+        flex-direction: column;
+
+        .nav-singer {
+            margin: 32px auto;
+            background-color: rgba(231, 231, 231, 0.4);
+            border-radius: 12px;
+
+            .item {
+                font-size: 16px;
+                color: black;
+                text-transform: uppercase;
+                padding: 3px 0;
+                cursor: pointer;
+                width: 121px;
+                display: inline-block;
+                text-align: center;
+
+                &.actived {
+                    background-color: rgba(255, 255, 255, 0.7);
+                    border-radius: 12px;
+                }
+            }
+        }
+
+        .content {
+            width: 100%;
+            padding: 16px 0px;
+
+            .popular-songs {
+                width: 100%;
+                padding: 0 41px;
+
+                .title {
+                    font-size: 24px;
+                    margin-bottom: 16px;
+                }
+
+                .info-section {
+                    @include flex(space-between, center);
+
+                    .box-img-effect {
+                        // border: 1px solid red;
+                        width: calc(20% + 20px);
+                        position: relative;
+                        height: 300px;
+
+                        img {
+                            width: 150px;
+                            height: 150px;
+                            position: absolute;
+                            top: 24%;
+                            border-radius: $border-radius;
+                            transition: all 0.3s ease-out;
+                            opacity: 0.5;
+
+                            &.first {
+                                z-index: 3;
+                                left: 40px;
+                                width: 250px;
+                                height: 250px;
+                                top: 8%;
+                                opacity: 1;
+                            }
+
+                            &.second {
+                                z-index: 2;
+                                left: 20px;
+                                width: 200px;
+                                height: 200px;
+                                top: 15%;
+                                opacity: 0.8;
+                            }
+
+                            &.three {
+                                z-index: 1;
+                                left: 0px;
+                            }
+
+                            &:hover {
+                                opacity: 1;
+                                transform: scale(1);
+                            }
+                        }
+
+                        .click-me {
+                            position: absolute;
+                            bottom: 0;
+                        }
+                    }
+
+                    .playlist {
+                        width: calc(70% + 70px);
+                        padding-right: 53px;
+                    }
+                }
+            }
+
+            .singer-ep,
+            .album,
+            .collection,
+            .appear-in {
+                margin: 48px 0;
+                position: relative;
+
+                .see-all {
+                    position: absolute;
+                    top: 10px;
+                    right: 91px;
+                    cursor: pointer;
+                    color: rgb(180, 88, 199);
+
+                    &:hover {
+                        color: rgb(176, 42, 180);
+                    }
+
+                    i {
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            .songs {
+                margin: 0 3%;
+
+                .title {
+                    font-size: 24px;
+                    margin-bottom: 16px;
+
+                    small {
+                        background-color: rgb(87, 20, 94);
+                        font-size: 16px;
+                        padding: 4px 16px 4px 4px;
+                        border-radius: 12.5px;
+                        color: rgba(255, 255, 255, 0.7);
+                        cursor: pointer;
+
+                        &:hover {
+                            color: #fff;
+                        }
+
+                        i {
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,140 @@
+@use '../../styles/' as *;
+
+.player-music-container {
+    position: fixed;
+    top: 90vh;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(24, 24, 24);
+    // background-color: #fff;
+    padding: 16px 24px;
+    @include flex(none, center);
+    z-index: 99999;
+
+    .info-song {
+        @include flex(none, center);
+        flex: 1;
+
+        .avatar-song {
+            width: 68px;
+            height: 68px;
+            // border: 1px solid red;
+
+            img {
+                object-fit: cover;
+                width: 100%;
+                border-radius: 10px;
+            }
+        }
+
+        .name-song {
+            padding: 0 16px;
+
+            .author-song {
+                font-size: 14px;
+                opacity: 0.5;
+            }
+        }
+
+        .add-libra {
+            i {
+                font-size: 15px;
+                display: inline-block;
+                padding: 8px;
+
+                &.icon {
+
+                    color: red;
+                }
+
+                &:hover {
+                    background-color: rgb(59, 59, 59);
+                    border-radius: 15.5px;
+                }
+            }
+        }
+    }
+
+    .player {
+        flex: 1;
+
+        .buttons-player {
+            @include flex(center, center);
+            margin-bottom: 12px;
+
+            i[class*="play"],
+            i[class*='pause'] {
+                font-size: 30px;
+            }
+
+            i {
+                margin: 0 16px;
+                cursor: pointer;
+
+                &.disabled {
+                    cursor: not-allowed;
+                    opacity: 0.5;
+                }
+            }
+        }
+
+        .wrap-progressbar {
+            position: relative;
+
+            .time-start {
+                position: absolute;
+                left: -50px;
+                top: -10px;
+            }
+
+            .progress-bar {
+                @include flex(flex-start, center);
+                cursor: pointer;
+                width: 600px;
+                height: 5px;
+                background-color: rgb(134, 134, 134);
+                border-radius: 2px;
+
+                .elapse {
+                    width: 0;
+                    height: 100%;
+                    background-image: linear-gradient(to left, red, orange, yellow, green, blue, indigo, violet);
+                }
+            }
+
+            .time-end {
+                position: absolute;
+                right: -50px;
+                top: -10px;
+            }
+        }
+
+    }
+
+    .volumn {
+        flex: 1;
+        @include flex(flex-end, center);
+        cursor: pointer;
+
+        .line-volume {
+            position: relative;
+            border-bottom: 20px solid rgb(180, 180, 180);
+            border-left: 200px solid transparent;
+
+            .elapse-volume {
+                position: absolute;
+                left: -200px;
+                bottom: -20px;
+                border-bottom: 20px solid rgb(243, 5, 5);
+                border-left: 200px solid transparent;
+
+            }
+
+        }
+
+        i {
+            font-size: 14px;
+        }
+    }
+}
