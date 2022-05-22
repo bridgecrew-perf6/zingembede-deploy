@@ -4,13 +4,18 @@
     h3 {
         padding: 0 32px;
     }
+
+    width: 100%;
+
     .wrap-items-5 {
         @include flex(flex-start, center);
-        width: 1260px;
+        width: 100%;
         margin: 0px auto 32px;
         flex-wrap: wrap;
+
         .item-5 {
             cursor: pointer;
+
             .wrap-img {
                 width: 252px;
                 height: 252px;
@@ -42,7 +47,7 @@
                             margin: 0 18px;
                         }
 
-                        &:hover + img {
+                        &:hover+img {
                             opacity: 0.5;
                             transform: scale(1.2);
                         }
@@ -56,6 +61,7 @@
                     }
                 }
             }
+
             .desciption {
                 padding: 0 18px;
 
@@ -78,7 +84,7 @@
 
     .wrap-items {
         // @include flex(flex-start, center);
-        width: 1260px;
+        width: 100%;
         margin: 16px auto 32px;
 
         .item {
@@ -112,7 +118,7 @@
                             margin: 0 18px;
                         }
 
-                        &:hover + img {
+                        &:hover+img {
                             opacity: 0.5;
                             transform: scale(1.2);
                         }

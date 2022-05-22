@@ -48,7 +48,9 @@ class ChartSection extends Component {
             },
             options: {
                 pointRadius: 0,
-                maintainAspectRatio: false, //set radio width / heigth
+                aspectRatio: 4,
+                responsive: true,
+                // maintainAspectRatio: false, //set radio width / heigth
                 scales:
                 {
                     y: {
@@ -103,29 +105,31 @@ class ChartSection extends Component {
 
         return (
             <div className="chartzing-container">
-                {this.props.home && <div className="top-song">
-                    <div onClick={() => this.props.history.push('/detail-chart')} className="name-title">#zingchart<i className="fa-solid fa-circle-play"></i></div>
-                    {dataTopSongs && dataTopSongs.map((item, index) => {
-                        return (
-                            <div onClick={() => this.props.history.push('/detail-chart')} key={index} className="box-top-song">
-                                <div className="left-top-song">
-                                    <div className="rank">{index + 1}</div>
-                                    <div className="wrap-avtar">
-                                        <img src={item.thumbnail} alt="" />
+                <div onClick={() => this.props.history.push('/detail-chart')} className="name-title">#zingchart<i className="fa-solid fa-circle-play"></i></div>
+                <div className='content-chart'>
+                    {this.props.home && <div className="top-song">
+                        {dataTopSongs && dataTopSongs.map((item, index) => {
+                            return (
+                                <div onClick={() => this.props.history.push('/detail-chart')} key={index} className="box-top-song">
+                                    <div className="left-top-song">
+                                        <div className="rank">{index + 1}</div>
+                                        <div className="wrap-avtar">
+                                            <img src={item.thumbnail} alt="" />
+                                        </div>
+                                        <div className="info-song">
+                                            <div className="h3">{item.title}</div>
+                                            <div className="artist opty-5">{item.artistsNames}</div>
+                                        </div>
                                     </div>
-                                    <div className="info-song">
-                                        <div className="h3">{item.title}</div>
-                                        <div className="artist opty-5">{item.artistsNames}</div>
-                                    </div>
+                                    <div className="percent">{this.handlePercentTopSong(item.score)}</div>
                                 </div>
-                                <div className="percent">{this.handlePercentTopSong(item.score)}</div>
-                            </div>
-                        )
-                    })}
-                    <div onClick={() => this.props.history.push('/detail-chart')} className="see-more">Xem thêm</div>
-                </div>}
+                            )
+                        })}
+                        <div onClick={() => this.props.history.push('/detail-chart')} className="see-more">Xem thêm</div>
+                    </div>}
 
-                <Line className='chart-line' data={this.state.data} options={this.state.options} />
+                    <Line className='chart-line' data={this.state.data} options={this.state.options} />
+                </div>
             </div>
         )
     }

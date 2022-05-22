@@ -6,6 +6,7 @@
     z-index: 10;
     height: 100vh;
 
+
     .logo {
         font-family: "Lavishly Yours", cursive;
         font-size: 35px;
@@ -13,6 +14,14 @@
         margin-bottom: 24px;
         padding: 32px 32px 0;
         cursor: pointer;
+
+        @include tablet {
+            display: none;
+        }
+
+        @include small-laptop {
+            font-size: 25px;
+        }
 
         span:nth-child(1) {
             text-shadow: 1px 1px 0 rgb(57, 174, 241), -1px 1px 0 rgb(57, 174, 241), -1px -1px 0 rgb(57, 174, 241),
@@ -35,26 +44,62 @@
         }
     }
 
+    .logo-v2 {
+        display: none;
+
+        @include tablet {
+            display: block;
+            text-align: center;
+            padding-top: 32px;
+
+        }
+    }
+
     .section-one,
     .section-two,
     .section-three {
         padding-bottom: 16px;
         padding-top: 16px;
-        border-bottom: 1px solid rgb(141, 141, 141);
 
         .item {
             padding: 4px 32px;
             font-size: 18px;
             cursor: pointer;
+            opacity: 0.8;
+
+            @include small-laptop {
+                font-size: 16px;
+            }
+
+            @include tablet {
+                padding: 12px;
+                text-align: center;
+            }
+
+            i {
+                font-size: 18px;
+
+                @include tablet {
+                    font-size: 22px;
+                }
+            }
+
+            span {
+                @include tablet {
+                    display: none;
+                }
+            }
 
             &:hover {
-                background-color: rgb(87, 85, 85);
-                border-left: 2px solid red;
+                background-color: rgb(56, 56, 56);
+                border-left: 2px solid rgb(156, 27, 173);
+                opacity: 1;
             }
 
             &.selected {
-                background-color: rgb(87, 85, 85);
-                border-left: 2px solid red;
+                background-color: rgb(56, 56, 56);
+                border-left: 2px solid rgb(156, 27, 173);
+                opacity: 1;
             }
         }
     }
@@ -72,6 +117,10 @@
         @include flex(center, center);
         flex-direction: column;
 
+        @include small-laptop {
+            display: none;
+        }
+
         .buy-vip {
             background-color: rgb(236, 233, 44);
             padding: 4px 0;
@@ -88,15 +137,34 @@
     }
 
     .create-new-playlist {
-        position: absolute;
         width: 100%;
         padding: 16px 32px;
-        border-top: 1px solid salmon;
+        border-top: 1px solid rgb(80, 80, 80);
+        border-bottom: 1px solid rgb(80, 80, 80);
         cursor: pointer;
-        bottom: 0;
+        text-align: center;
 
         &:hover {
             background-color: rgb(104, 83, 83);
+        }
+
+        @include tablet {
+            padding: 12px;
+            text-align: center;
+        }
+
+        i {
+            @include small-laptop {
+                display: block;
+            }
+        }
+
+
+        span {
+            @include tablet {
+                display: none;
+            }
+
         }
     }
 

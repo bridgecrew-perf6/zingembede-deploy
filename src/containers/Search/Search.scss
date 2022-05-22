@@ -2,17 +2,27 @@
 
 .search-container {
     @include flex(space-between, center);
-    padding: 32px 3% 24px;
+    padding: 32px 17% 24px;
     position: fixed;
     top: 0;
-    z-index: 10;
-    background-color: transparent;
-    width: 70%;
+    z-index: 8;
+    width: 100vw;
     margin: 0 auto;
+
+    @include small-laptop {
+        padding: 32px 13% 24px;
+        margin-left: 13%;
+    }
+
+    @include tablet {
+        padding: 32px 10% 24px;
+        margin-left: 6%;
+    }
 
     .left-search {
         @include flex(flex-start, center);
         flex: 7;
+        gap: 5%;
 
         .negative {
             @include flex(flex-start, center);
@@ -28,7 +38,7 @@
         }
 
         .box-search {
-            width: 90%;
+            width: 85%;
 
             .input-search {
                 width: 70%;
@@ -47,8 +57,11 @@
     .account {
         flex: 3;
         @include flex(flex-end, center);
-        padding-right: 32px;
         cursor: pointer;
+
+        @include small-laptop {
+            padding-right: 0;
+        }
 
         .wrap-img-account {
             width: 50px;

@@ -288,7 +288,7 @@ class Search extends Component {
         return (
             <>
                 {this.state.isLoading && <Loading2 />}
-                <div className={this.props.history.location.pathname !== "/home" ? "search-container detail" : "search-container"}>
+                <div className="search-container">
                     <div className="left-search">
                         <div className="negative">
                             <span onClick={() => this.handleGoBack()}>

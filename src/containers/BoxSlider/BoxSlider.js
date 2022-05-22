@@ -9,7 +9,7 @@ let settings = {
     infinite: true,
     speed: 500,
     slidesToShow: 5,
-    slidesToScroll: 1, 
+    slidesToScroll: 1,
 }
 
 class BoxSlider extends Component {
@@ -38,10 +38,10 @@ class BoxSlider extends Component {
 
     render() {
         let { h3, data } = this.props
-        let {dataLessThan5} = this.state
+        let { dataLessThan5 } = this.state
 
         return (
-            <div className="box-slider section">
+            <div className="box-slider">
                 <h3>{h3}</h3>
                 {dataLessThan5 ? (
                     <div className="wrap-items-5">

@@ -109,50 +109,48 @@ class LeftSidebar extends Component {
                     <div onClick={() => this.redirect("/home")} className="logo">
                         <span>Zing</span> <span>em</span> <span>bê</span> <span>đê</span>
                     </div>
+                    <div className="logo-v2">
+                        <img src="https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.6.27/static/media/icon_zing_mp3_60.f6b51045.svg" alt="" />
+                    </div>
                     <div className="section-one">
                         <div
                             onClick={() => this.redirect("/personal")}
                             className={this.state.currentTab === "/personal" ? "item selected" : "item"}
                         >
-                            Cá nhân
+                            <i title="Cá nhân" className="fa-solid fa-headphones-simple"></i><span>Cá nhân</span>
                         </div>
                         <div
                             onClick={() => this.redirect("/home")}
                             className={this.state.currentTab === "/home" ? "item selected" : "item"}
                         >
-                            Khám phá
+                            <i title="Khám phá" className="fa-solid fa-compact-disc"></i><span>Khám phá</span>
                         </div>
                         <div
                             onClick={() => this.redirect("/detail-chart")}
                             className={this.state.currentTab === "/detail-chart" ? "item selected" : "item"}
                         >
-                            #zingchart
+                            <i title="#zingchart" className="fa-solid fa-chart-line"></i><span>#zingchart</span>
                         </div>
                         <div
                             onClick={() => this.redirect("/new-release")}
                             className={this.state.currentTab === "/new-release" ? "item selected" : "item"}
                         >
-                            Nhạc mới
+                            <i title="Nhạc mới" className="fa-solid fa-music"></i><span>Nhạc mới</span>
                         </div>
                         <div
                             onClick={() => this.redirect("/detail-top-100")}
                             className={this.state.currentTab === "/detail-top-100" ? "item selected" : "item"}
                         >
-                            Top 100
+                            <i title="Top 100" className="fa-regular fa-star"></i><span>Top 100</span>
                         </div>
                         <div
                             onClick={() => this.redirect("/detail-recent")}
                             className={this.state.currentTab === "/detail-recent" ? "item selected" : "item"}
                         >
-                            Gần đây
+                            <i title="Gần đây" className="fa-regular fa-clipboard"></i><span>Gần đây</span>
                         </div>
                     </div>
-
-                    <div className="box-vip">
-                        Nghe nhạc không quảng cáo cùng kho nhạc VIP
-                        <div className="buy-vip">Nâng cấp VIP</div>
-                    </div>
-                    <div onClick={() => this.toggleModal(true)} className="create-new-playlist">+ Tạo playlist mới</div>
+                    <div title="Tạo playlist mới" onClick={() => this.toggleModal(true)} className="create-new-playlist"><i className="fa-regular fa-square-plus"></i> <span>Tạo playlist mới</span></div>
                     {this.state.isShowModal && <div onClick={() => this.toggleModal(false)} className="pop-up-new-playlist">
                         <div onClick={(event) => this.toggleModal(true, event)} className="box-pop-up">
                             <h3>Tạo playlist mới</h3>
@@ -165,6 +163,10 @@ class LeftSidebar extends Component {
                             </button>
                         </div>
                     </div>}
+                    <div className="box-vip">
+                        Nghe nhạc không quảng cáo cùng kho nhạc VIP
+                        <div className="buy-vip">Nâng cấp VIP</div>
+                    </div>
                 </div>
                 {this.state.isLoading && <Loading2 />}
             </>

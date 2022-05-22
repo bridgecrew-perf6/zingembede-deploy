@@ -8,8 +8,8 @@ import { handleSignUpService, handleLoginService } from '../../services/userServ
 import { withRouter } from 'react-router';
 import * as actions from '../../store/actions'
 import { Buffer } from 'buffer'
-import Loading from '../Loading/Loading'
 import Loading2 from '../Loading2/Loading2';
+
 
 
 class Login extends Component {
@@ -25,9 +25,14 @@ class Login extends Component {
     }
     handleToggleShowLogin = () => {
         const coverEl = document.querySelector('.cover-box')
+        coverEl.classList.remove('start')
         let rectCover = coverEl.getBoundingClientRect()
         if (this.state.isLogin) {
-            coverEl.style.transform = `translateY(-${rectCover.height}px)`
+            coverEl.style.cssText = `
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                transform: translateX(${rectCover.width}px) rotateZ(720deg);
+            `
             this.setState({
                 isLogin: false,
                 name: '',
@@ -35,7 +40,12 @@ class Login extends Component {
                 password: ''
             })
         } else {
-            coverEl.style.transform = `translateY(0)`
+            coverEl.style.cssText = `
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                transform: translateX(0) rotateZ(0);
+
+            `
             this.setState({
                 isLogin: true,
                 name: '',
@@ -152,7 +162,6 @@ class Login extends Component {
         return (
             <Fragment>
                 <div className='login-container'>
-                    <div className="bg-login"><Loading /></div>
                     <div className='box-login'>
                         <div className="login">
                             <h2 className='title'>Login</h2>
@@ -190,7 +199,7 @@ class Login extends Component {
                             </div>
                             <button type='button' onClick={() => this.handleSubmitSignup()} className='btn-submit'>Đăng ký</button>
                         </div>
-                        <div className="cover-box">
+                        <div className="cover-box start">
                             <h2 className='title'>{this.state.isLogin ? 'Hey, bro ~' : 'Hey, welcome back ~'}</h2>
                             <div className="welcome">{this.state.isLogin ? 'Nếu bro chưa có tài khoản hãy đăng ký nào !' : 'Hãy đăng nhập nào !'}</div>
                             <div onClick={() => this.handleToggleShowLogin()} className="btn-transform">{this.state.isLogin ? 'Đăng ký' : 'Đăng nhập'}</div>
