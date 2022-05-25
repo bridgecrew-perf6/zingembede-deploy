@@ -2,15 +2,15 @@
 
 .box-slider {
     h3 {
-        padding: 0 32px;
+        padding: 0 16px;
     }
 
     width: 100%;
 
     .wrap-items-5 {
-        @include flex(flex-start, center);
+        @include flex(center, center);
         width: 100%;
-        margin: 0px auto 32px;
+        margin: 16px auto 32px;
         flex-wrap: wrap;
 
         .item-5 {
@@ -30,7 +30,7 @@
 
                     .overwritten-buttons {
                         position: absolute;
-                        color: $main-color;
+                        color: #fff;
                         top: 40%;
                         width: calc(100% - 32px);
                         z-index: 2;
@@ -101,7 +101,7 @@
 
                     .overwritten-buttons {
                         position: absolute;
-                        color: $main-color;
+                        color: #fff;
                         top: 40%;
                         width: calc(100% - 32px);
                         z-index: 2;
@@ -111,6 +111,16 @@
 
                         i[class*="play"] {
                             font-size: 40px;
+
+                            @include small-laptop {
+                                font-size: 35px;
+                            }
+
+                            @include tablet {
+                                font-size: 25px;
+                            }
+
+
                         }
 
                         i {

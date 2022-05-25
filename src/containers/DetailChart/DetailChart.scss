@@ -1,13 +1,28 @@
-@use '../../styles/'as *;
+@use '../../styles/' as *;
 
 .detail-chart-container {
-    @include flex(center, flex-start);
+    @include flex(center, center);
     flex-direction: column;
-    margin: 0px 13% 150px;
+    // margin: 0px 13% 150px;
+    width: 74%;
     padding: 90px 4% 0;
     background-color: rgb(36, 36, 36);
+    margin: auto;
+
+    @include small-laptop {
+        width: 88%;
+        margin-left: 13%;
+    }
+
+    @include tablet {
+        width: 95%;
+        margin-left: 6%;
+        padding: 8%;
+    }
 
     .chart-sectio {
+        width: 100%;
+
         .zing-chart-title {
             font-size: 35px;
             padding: 32px 0px;

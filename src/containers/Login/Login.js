@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import { handleSignUpService, handleLoginService } from '../../services/userService'
 import { withRouter } from 'react-router';
 import * as actions from '../../store/actions'
-import { Buffer } from 'buffer'
+// import { Buffer } from 'buffer'
 import Loading2 from '../Loading2/Loading2';
 
 
@@ -83,8 +83,8 @@ class Login extends Component {
             })
             if (response) this.setState({ isLoading: false })
             if (response && response.data.err === 0) {
-                let img = response.data.user.image ? new Buffer(response.data.user.image, 'base64').toString('binary') : ''
-                localStorage.setItem('user', JSON.stringify({ ...response.data.user, image: img }))
+                // let img = response.data.user.image ? new Buffer(response.data.user.image, 'base64').toString('binary') : ''
+                localStorage.setItem('user', JSON.stringify(response.data.user))
                 this.props.login(true)
                 this.props.history.push('/home')
                 this.setState({
@@ -200,9 +200,9 @@ class Login extends Component {
                             <button type='button' onClick={() => this.handleSubmitSignup()} className='btn-submit'>Đăng ký</button>
                         </div>
                         <div className="cover-box start">
-                            <h2 className='title'>{!this.state.isLogin ? 'Hey, bro ~' : 'Hey, welcome back ~'}</h2>
-                            <div className="welcome">{!this.state.isLogin ? 'Nếu bro chưa có tài khoản hãy đăng ký nào !' : 'Hãy đăng nhập nào !'}</div>
-                            <div onClick={() => this.handleToggleShowLogin()} className="btn-transform">{!this.state.isLogin ? 'Đăng ký' : 'Đăng nhập'}</div>
+                            <h2 className='title'>{this.state.isLogin ? 'Hey, bro ~' : 'Hey, welcome back ~'}</h2>
+                            <div className="welcome">{this.state.isLogin ? 'Nếu bro chưa có tài khoản hãy đăng ký nào !' : 'Hãy đăng nhập nào !'}</div>
+                            <div onClick={() => this.handleToggleShowLogin()} className="btn-transform">{this.state.isLogin ? 'Đăng ký' : 'Đăng nhập'}</div>
                         </div>
                     </div>
                 </div>

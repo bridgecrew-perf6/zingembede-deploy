@@ -36,7 +36,7 @@ class DetailSinger extends Component {
             currentAlbum: null,
             user: null,
             isLiked: false,
-            isLoading: false
+            isLoading: false,
         }
     }
 
@@ -56,7 +56,8 @@ class DetailSinger extends Component {
                     album: responseInfoSinger.data.data.sections[2],
                     collection: responseInfoSinger.data.data.sections[4],
                     appearIn: responseInfoSinger.data.data.sections[5],
-                    user: user
+                    user: user,
+
                 },
                 async () => {
                     if (this.state.singleAndEp) this.state.singleAndEp.items.length = 5
@@ -78,6 +79,9 @@ class DetailSinger extends Component {
                 if (check) this.setState({ isLiked: true })
             }
         }
+
+
+
     }
     componentDidUpdate(prevProps, prevState) {
         if (prevState.selectedTab !== this.state.selectedTab) {
@@ -244,7 +248,6 @@ class DetailSinger extends Component {
             this.state
         let Tabs = ["Tổng quan", "Bài hát", `SINGLE & EP`, "Album", "MV"]
 
-        // console.log(dataDetailSinger);
         return (
             <>
                 {dataDetailSinger && (

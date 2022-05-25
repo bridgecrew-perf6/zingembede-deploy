@@ -1,8 +1,8 @@
 @use '../../styles/' as *;
 
 .detail-top-100 {
-    margin: 110px 13% 32px;
-    padding: 0 5%;
+    margin: 110px auto 32px;
+    width: 68%;
 
     .title {
         font-size: 28px;
@@ -10,17 +10,15 @@
 
     .content-top-100 {
         margin: 32px 0;
-        @include flex(flex-start, center);
+        @include flex(space-evenly, center);
         flex-wrap: wrap;
-        gap: 36px;
-
-
+        gap: 10px;
 
         .box-img {
-            width: 275px;
+            width: 250px;
             box-shadow: 0 0 20px rgb(53, 52, 52);
             border-radius: 10px;
-            height: 275px;
+            height: 250px;
             overflow: hidden;
 
 

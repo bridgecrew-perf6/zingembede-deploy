@@ -48,7 +48,8 @@ class ChartV2 extends Component {
             },
             options: {
                 pointRadius: 0,
-                maintainAspectRatio: false, //set radio width / heigth
+                aspectRatio: 4,
+                responsive: true,
                 scales:
                 {
                     y: {

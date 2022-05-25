@@ -9,10 +9,10 @@
 
     .logo {
         font-family: "Lavishly Yours", cursive;
-        font-size: 35px;
+        font-size: 32px;
         color: rgb(35, 35, 35);
         margin-bottom: 24px;
-        padding: 32px 32px 0;
+        padding: 32px 24px 0;
         cursor: pointer;
 
         @include tablet {
@@ -86,7 +86,12 @@
 
             span {
                 @include tablet {
-                    display: none;
+                    display: block;
+                    font-size: 14px;
+                    width: 100%;
+                    // white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
             }
 
@@ -154,14 +159,12 @@
         }
 
         i {
-            @include small-laptop {
-                display: block;
-            }
+            display: block;
         }
 
 
         span {
-            @include tablet {
+            @include small-laptop {
                 display: none;
             }
 

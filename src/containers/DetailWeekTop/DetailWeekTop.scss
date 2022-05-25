@@ -1,10 +1,21 @@
 @use '../../styles/' as *;
 
 .detail-week-top-container {
-    margin: 110px 15% 0px;
-    height: calc(100vh - 110px);
+    height: calc(100vh);
     position: relative;
     overflow: hidden;
+    width: 74%;
+    margin: auto;
+
+    @include small-laptop {
+        width: 88%;
+        margin-left: 13%;
+    }
+
+    @include tablet {
+        width: 95%;
+        margin-left: 6%;
+    }
 
 
     .bg-5 {
@@ -28,7 +39,7 @@
         position: absolute;
         top: 0;
         z-index: 3;
-        padding: 32px;
+        padding: 110px 32px 32px;
         width: 100%;
 
         .title-week-top {

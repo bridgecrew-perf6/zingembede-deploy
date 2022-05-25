@@ -91,7 +91,7 @@
             .progress-bar {
                 @include flex(flex-start, center);
                 cursor: pointer;
-                width: 600px;
+                width: 100%;
                 height: 5px;
                 background-color: rgb(134, 134, 134);
                 border-radius: 2px;

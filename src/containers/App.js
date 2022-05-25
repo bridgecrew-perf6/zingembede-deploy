@@ -25,12 +25,13 @@ import DetailRecent from "./DetailRecent/DetailRecent"
 import Playlist from "./Playlist/Playlist"
 
 class App extends Component {
-    handleOnScroll = event => {
-        const searcgEl = document.querySelector(".search-container")
-        if (event.target.scrollTop > 50) {
-            searcgEl.style.backgroundColor = "rgb(40,40,40)"
+
+    handleOnScroll = (event) => {
+        const searchEL = document.querySelector('.search-containers')
+        if (event.target.scrollTop === 0) {
+            searchEL.style.backgroundColor = 'transparent'
         } else {
-            searcgEl.style.backgroundColor = "transparent"
+            searchEL.style.backgroundColor = 'rgb(40,40,40)'
         }
     }
 
@@ -38,7 +39,7 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <Scrollbars
-                    onScroll={event => this.handleOnScroll(event)}
+                    onScroll={this.handleOnScroll}
                     style={{ width: "100%", height: "100vh" }}
                 >
                     <div className="search"> <Search /></div>
@@ -46,9 +47,9 @@ class App extends Component {
                         <div className="left-sidebar">
                             <LeftSidebar />
                         </div>
-                        <div className="right-sidebar">
+                        {!this.props.modal && <div className="right-sidebar">
                             <RightSideBar />
-                        </div>
+                        </div>}
                         <Switch>
                             <Route exact path="/"><UseisrAuthenticated /></Route>
                             <Route path="/login"><Login /></Route>
@@ -72,7 +73,8 @@ class App extends Component {
 }
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.isLoggedIn
+        isLoggedIn: state.isLoggedIn,
+        modal: state.modal
     }
 }
 

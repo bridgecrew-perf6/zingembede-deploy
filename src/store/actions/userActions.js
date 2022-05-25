@@ -142,4 +142,8 @@ export const refreshPlay = (id) => ({
 export const refresh = () => ({
     type: actionTypes.REFRESH,
 })
+export const toggleModal = (data) => ({
+    type: actionTypes.TOGGLE_MODAL,
+    data
+})
 

@@ -10,7 +10,8 @@ let initState = {
     isLoggedIn: false,
     updateRecent: false,
     refreshPlay: '-1',
-    refresh: false
+    refresh: false,
+    modal: false
 }
 
 let userReducer = (state = initState, action) => {
@@ -89,6 +90,11 @@ let userReducer = (state = initState, action) => {
             return {
                 ...state,
                 refresh: !state.refresh
+            }
+        case actionTypes.TOGGLE_MODAL:
+            return {
+                ...state,
+                modal: action.data
             }
 
         default:

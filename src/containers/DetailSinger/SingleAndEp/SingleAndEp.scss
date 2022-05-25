@@ -1,0 +1,6 @@
+@use '../../../styles/' as *;
+
+.single-and-ep {
+    @include flex(center, center);
+    padding: 0 32px;
+}

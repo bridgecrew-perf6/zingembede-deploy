@@ -11,6 +11,7 @@ import { trim } from 'lodash'
 import Loading2 from '../Loading2/Loading2'
 
 
+
 class Search extends Component {
     constructor(props) {
         super(props)
@@ -21,6 +22,7 @@ class Search extends Component {
             email: '',
             name: '',
             image: '',
+            imgBuffer: '',
             email2: '',
             password: '',
             isShowModalEdit: false,
@@ -46,12 +48,16 @@ class Search extends Component {
             this.setState({
                 email: user.email,
                 name: user.name,
-                image: user.image || ''
             })
+            let response = await handleGetUser(user.email)
+            if (response && response.data.err === 0) {
+                this.setState({
+                    image: response.data.user.image ? new Buffer(response.data.user.image, 'base64').toString('binary') : 'https://i.pinimg.com/originals/3e/02/a5/3e02a58132717af979963f14d5109d80.jpg',
+                })
+            }
         }
-
     }
-    componentDidUpdate(prevProps) {
+    async componentDidUpdate(prevProps) {
         if (prevProps.isLoggedIn !== this.props.isLoggedIn) {
             if (localStorage.getItem('user')) {
                 this.props.login(true)
@@ -59,8 +65,13 @@ class Search extends Component {
                 this.setState({
                     email: user.email,
                     name: user.name,
-                    image: user.image || ''
                 })
+                let response = await handleGetUser(user.email)
+                if (response && response.data.err === 0) {
+                    this.setState({
+                        image: response.data.user.image ? new Buffer(response.data.user.image, 'base64').toString('binary') : 'https://i.pinimg.com/originals/3e/02/a5/3e02a58132717af979963f14d5109d80.jpg',
+                    })
+                }
             }
         }
     }
@@ -100,6 +111,7 @@ class Search extends Component {
             })
         }
         if (id === 'isShowModalEdit' && !this.state.isShowModalEdit) {
+            this.props.toggleModal(true)
             if (localStorage.getItem('user')) {
                 let user = JSON.parse(localStorage.getItem('user'))
                 this.setState({ isLoading: true })
@@ -116,7 +128,6 @@ class Search extends Component {
                         localStorage.setItem('user', JSON.stringify({
                             email: this.state.email,
                             name: this.state.name,
-                            image: this.state.image,
                             id: response.data.user.id
                         }))
                     })
@@ -132,10 +143,11 @@ class Search extends Component {
             })
         }
         if (isBox) {
-            if (id === 'isShowModalEdit')
+            if (id === 'isShowModalEdit') {
                 this.setState({
                     isShowModalEdit: true
                 })
+            }
             if (id === 'isChangePassword')
                 this.setState({
                     isChangePassword: true
@@ -148,6 +160,9 @@ class Search extends Component {
                     this.setState({
                         step: 1
                     })
+                }
+                if (id === 'isShowModalEdit' && !this.state.isShowModalEdit) {
+                    this.props.toggleModal(false)
                 }
             })
         }
@@ -166,7 +181,7 @@ class Search extends Component {
     handleOnchangeFile = async (event) => {
         let imgbase64 = await convertToBase64(event.target.files[0])
         this.setState({
-            image: imgbase64
+            image: imgbase64,
         })
     }
     handleSubmitUpdate = async (flag) => {
@@ -180,7 +195,6 @@ class Search extends Component {
                 localStorage.setItem('user', JSON.stringify({
                     email: this.state.email,
                     name: this.state.name,
-                    image: this.state.image,
                     id: response.data.idUser
                 }))
                 Swal.fire({
@@ -284,11 +298,11 @@ class Search extends Component {
     }
 
     render() {
-        // console.log(this.state);
+
         return (
             <>
                 {this.state.isLoading && <Loading2 />}
-                <div className="search-container">
+                <div className="search-containers">
                     <div className="left-search">
                         <div className="negative">
                             <span onClick={() => this.handleGoBack()}>
@@ -408,14 +422,17 @@ class Search extends Component {
 }
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.isLoggedIn
+        isLoggedIn: state.isLoggedIn,
+        modal: state.modal
+
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         saveKeyword: keyword => dispatch(actions.saveKeyword(keyword)),
-        login: (status) => dispatch(actions.login(status))
+        login: (status) => dispatch(actions.login(status)),
+        toggleModal: (data) => dispatch(actions.toggleModal(data))
     };
 }
 

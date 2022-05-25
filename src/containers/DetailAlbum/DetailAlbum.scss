@@ -5,14 +5,30 @@
     flex-direction: column;
     margin-bottom: 150px;
 
+    @include small-laptop {
+        margin-left: 13%;
+    }
+
+    @include tablet {
+        margin-left: 6%;
+    }
+
     .content-detail-album-container {
-        width: 1260px;
+        width: 68%;
         margin: 100px auto 32px;
         @include flex(space-between, none);
 
+        @include small-laptop {
+            width: 85%;
+        }
+
+        @include tablet {
+            width: 81%;
+        }
+
+
         .under-cd {
             width: 30%;
-            height: 500px;
         }
 
         .cd-thubmail {
@@ -45,7 +61,7 @@
 
                 .cd-wrap {
                     width: calc(100% - 16px);
-                    height: 362px;
+                    height: calc(100% - 16px);
                     overflow: hidden;
                     border-radius: $border-radius;
                     cursor: pointer;
@@ -66,8 +82,14 @@
 
                     img {
                         width: 100%;
+                        height: 100%;
                         object-fit: cover;
-                        transition: transform .3s ease-out;
+                        border-radius: $border-radius;
+
+                        &:hover {
+                            opacity: 1;
+                            transform: scale(1);
+                        }
 
 
                     }

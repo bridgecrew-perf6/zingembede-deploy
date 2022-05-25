@@ -21,7 +21,8 @@ const actionTypes = Object.freeze({
     LOG_OUT: 'LOG_OUT',
     UPDATE_RECENT: 'UPDATE_RECENT',
     REFRESH_PLAY: 'REFRESH_PLAY',
-    REFRESH: 'REFRESH'
+    REFRESH: 'REFRESH',
+    TOGGLE_MODAL: 'TOGGLE_MODAL'
 })
 
 export default actionTypes

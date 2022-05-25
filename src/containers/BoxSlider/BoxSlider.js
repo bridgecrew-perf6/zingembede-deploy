@@ -60,13 +60,11 @@ class BoxSlider extends Component {
                                             <div className="layer-two">
                                                 {this.state.encodeId === item.encodeId && (
                                                     <div className="overwritten-buttons">
-                                                        <i title="Yêu thích" className="fa-regular fa-heart"></i>
                                                         <i
                                                             onClick={() => this.handleShowDetail(item)}
                                                             title="Play"
                                                             className="fa-regular fa-circle-play"
                                                         ></i>
-                                                        <i title="Tải xuống" className="fa-solid fa-download"></i>
                                                     </div>
                                                 )}
 
@@ -98,13 +96,13 @@ class BoxSlider extends Component {
                                             <div className="layer-two">
                                                 {this.state.encodeId === item.encodeId && (
                                                     <div className="overwritten-buttons">
-                                                        <i title="Yêu thích" className="fa-regular fa-heart"></i>
+
                                                         <i
                                                             onClick={() => this.handleShowDetail(item)}
                                                             title="Play"
                                                             className="fa-regular fa-circle-play"
                                                         ></i>
-                                                        <i title="Tải xuống" className="fa-solid fa-download"></i>
+
                                                     </div>
                                                 )}
 
@@ -137,13 +135,13 @@ class BoxSlider extends Component {
                                                 <div className="layer-two">
                                                     {this.state.encodeId === item.encodeId && (
                                                         <div className="overwritten-buttons">
-                                                            <i title="Yêu thích" className="fa-regular fa-heart"></i>
+
                                                             <i
                                                                 onClick={() => this.handleShowDetail(item)}
                                                                 title="Play"
                                                                 className="fa-regular fa-circle-play"
                                                             ></i>
-                                                            <i title="Tải xuống" className="fa-solid fa-download"></i>
+
                                                         </div>
                                                     )}
 

@@ -265,8 +265,8 @@ class PlayerMusic2 extends Component {
     handleNextSong = () => {
         if (this.state.isNext) {
             if (this.props.type !== 1) {
-                let indexNextSong = this.getIndexNextAndPrevSong()[1]
-                if (this.props.album) {
+                let indexNextSong = this.getIndexNextAndPrevSong ? this.getIndexNextAndPrevSong()[1] : NaN
+                if (this.props.album && indexNextSong) {
                     if (!(indexNextSong >= this.props.album.length)) {
                         this.handleGetFullSongInfo(this.props.album[indexNextSong].encodeId)
                         this.props.getCurrentSong(this.props.album[indexNextSong].encodeId)
@@ -361,7 +361,7 @@ class PlayerMusic2 extends Component {
     }
 
     render() {
-        let { linkPlaySong, detailSong } = this.state
+        let { detailSong } = this.state
 
         return (
             <>
