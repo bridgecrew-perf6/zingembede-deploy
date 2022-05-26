@@ -53,7 +53,11 @@ class Home extends Component {
             dataChartHome: null,
             dataWeekTop: null,
             selectedCountry: null,
-            loading: true
+            loading: true,
+            avatarSong: null,
+            nameSong: null,
+            artist: null,
+            duration: null,
         }
     }
     async componentDidMount() {
@@ -153,7 +157,11 @@ class Home extends Component {
             this.setState({
                 isShowPlayerMusic: true,
                 idCurrentSong: item.encodeId,
-                type: item.type
+                type: item.type,
+                artist: item.artistsNames,
+                nameSong: item.title,
+                avatarSong: item.thumbnail,
+                duration: item.duration,
             })
         }
         if (item.type === 4) {
@@ -274,7 +282,14 @@ class Home extends Component {
                         <div className="top-100 section">{top100 && <BoxSlider h3={""} data={top100.data} />}</div>
                     </div>
                 </div>
-                {this.state.isShowPlayerMusic && <PlayerMusic2 type={this.state.type} idSong={idSong} />}
+                {this.state.isShowPlayerMusic && <PlayerMusic2
+                    type={this.state.type}
+                    idSong={idSong}
+                    artist={this.state.artist}
+                    duration={this.state.duration}
+                    avatarSong={this.state.avatarSong}
+                    nameSong={this.state.nameSong}
+                />}
                 {this.state.loading && <Loading2 />}
 
             </>
