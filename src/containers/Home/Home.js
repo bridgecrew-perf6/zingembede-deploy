@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css"
 import Slider from "react-slick"
 import * as actions from "../../store/actions"
 import { withRouter } from "react-router-dom"
+import { getInfoSong } from '../../services/userService'
 
 
 
@@ -151,18 +152,24 @@ class Home extends Component {
         }
         return { banner, suggest, selectToday, xone, dataChart, singers, top100 }
     }
-    handleDetail = item => {
+    handleDetail = async item => {
         if (item.type === 1) {
             this.props.refreshPlay('5')
-            this.setState({
-                isShowPlayerMusic: true,
-                idCurrentSong: item.encodeId,
-                type: item.type,
-                artist: item.artistsNames,
-                nameSong: item.title,
-                avatarSong: item.thumbnail,
-                duration: item.duration,
-            })
+            this.setState({ loading: true })
+            let response = await getInfoSong(item.encodeId)
+            if (response) this.setState({ loading: false })
+            if (response && response.data.err === 0) {
+                this.setState({
+                    isShowPlayerMusic: true,
+                    idCurrentSong: item.encodeId,
+                    type: item.type,
+                    artist: response.data.data.artistsNames,
+                    nameSong: response.data.data.title,
+                    avatarSong: response.data.data.thumbnail,
+                    duration: response.data.data.duration,
+                })
+            }
+
         }
         if (item.type === 4) {
             this.props.history.push(`/detail-album/${item.encodeId}`)
@@ -284,11 +291,11 @@ class Home extends Component {
                 </div>
                 {this.state.isShowPlayerMusic && <PlayerMusic2
                     type={this.state.type}
-                    idSong={idSong}
-                    artist={this.state.artist}
-                    duration={this.state.duration}
                     avatarSong={this.state.avatarSong}
                     nameSong={this.state.nameSong}
+                    artist={this.state.artist}
+                    duration={this.state.duration}
+                    idSong={idSong}
                 />}
                 {this.state.loading && <Loading2 />}
 
