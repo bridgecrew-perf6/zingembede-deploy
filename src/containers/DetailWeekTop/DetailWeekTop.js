@@ -20,7 +20,11 @@ class DetailWeekTop extends Component {
             playMusic: false,
             idSong: null,
             customPlayMode: false,
-            isLoading: false
+            isLoading: false,
+            avatarSong: null,
+            nameSong: null,
+            artist: null,
+            duration: null,
         }
     }
     componentDidMount() {
@@ -79,7 +83,11 @@ class DetailWeekTop extends Component {
             this.setState({
                 idSong: playlistSong[randomIndexSong].encodeId,
                 playMusic: true,
-                customPlayMode: true
+                customPlayMode: true,
+                avatarSong: playlistSong[randomIndexSong].thumbnail,
+                nameSong: playlistSong[randomIndexSong].title,
+                artist: playlistSong[randomIndexSong].artistsNames,
+                duration: playlistSong[randomIndexSong].duration,
             })
         }
     }
@@ -87,7 +95,11 @@ class DetailWeekTop extends Component {
         this.props.refreshPlay('4')
         this.setState({
             idSong: item.encodeId,
-            playMusic: true
+            playMusic: true,
+            artist: item.artistsNames,
+            nameSong: item.title,
+            avatarSong: item.thumbnail,
+            duration: item.duration,
         })
     }
 
@@ -140,6 +152,10 @@ class DetailWeekTop extends Component {
                         getCurrentSong={this.getCurrentSong}
                         handleCustomPlay={this.handleCustomPlay}
                         customPlayMode={this.state.customPlayMode}
+                        avatarSong={this.state.avatarSong}
+                        nameSong={this.state.nameSong}
+                        artist={this.state.artist}
+                        duration={this.state.duration}
                     />
                 )}
             </>

@@ -200,9 +200,9 @@ class Login extends Component {
                             <button type='button' onClick={() => this.handleSubmitSignup()} className='btn-submit'>Đăng ký</button>
                         </div>
                         <div className="cover-box start">
-                            <h2 className='title'>{this.state.isLogin ? 'Hey, bro ~' : 'Hey, welcome back ~'}</h2>
-                            <div className="welcome">{this.state.isLogin ? 'Nếu bro chưa có tài khoản hãy đăng ký nào !' : 'Hãy đăng nhập nào !'}</div>
-                            <div onClick={() => this.handleToggleShowLogin()} className="btn-transform">{this.state.isLogin ? 'Đăng ký' : 'Đăng nhập'}</div>
+                            <h2 className='title'>{!this.state.isLogin ? 'Hey, bro ~' : 'Hey, welcome back ~'}</h2>
+                            <div className="welcome">{!this.state.isLogin ? 'Nếu bro chưa có tài khoản hãy đăng ký nào !' : 'Hãy đăng nhập nào !'}</div>
+                            <div onClick={() => this.handleToggleShowLogin()} className="btn-transform">{!this.state.isLogin ? 'Đăng ký' : 'Đăng nhập'}</div>
                         </div>
                     </div>
                 </div>

@@ -37,6 +37,10 @@ class DetailSinger extends Component {
             user: null,
             isLiked: false,
             isLoading: false,
+            avatarSong: null,
+            nameSong: null,
+            artist: null,
+            duration: null,
         }
     }
 
@@ -129,7 +133,11 @@ class DetailSinger extends Component {
         this.props.refreshPlay('3')
         this.setState({
             idSong: item.encodeId,
-            playMusic: true
+            playMusic: true,
+            artist: item.artistsNames,
+            nameSong: item.title,
+            avatarSong: item.thumbnail,
+            duration: item.duration,
         })
     }
     getCurrentSong = id => {
@@ -143,7 +151,11 @@ class DetailSinger extends Component {
             this.setState({
                 idSong: playlistSong[randomIndexSong].encodeId,
                 playMusic: true,
-                customPlayMode: true
+                customPlayMode: true,
+                avatarSong: playlistSong[randomIndexSong].thumbnail,
+                nameSong: playlistSong[randomIndexSong].title,
+                artist: playlistSong[randomIndexSong].artistsNames,
+                duration: playlistSong[randomIndexSong].duration,
             })
         }
     }
@@ -369,10 +381,10 @@ class DetailSinger extends Component {
                                     </div>
                                 )}
                                 {selectedTab === 2 && this.state.singleAndEpFull && (
-                                    <SingleAndEp singleAndEpFull={this.state.singleAndEpFull} />
+                                    <div className="single-ep-section"><SingleAndEp singleAndEpFull={this.state.singleAndEpFull} /></div>
                                 )}
                                 {selectedTab === 3 && this.state.album && (
-                                    <BoxSlider h3={""} data={this.state.album.items} detail={true} />
+                                    <div className="album-section"><BoxSlider h3={""} data={this.state.album.items} detail={true} /></div>
                                 )}
                             </div>
                         </div>
@@ -386,6 +398,10 @@ class DetailSinger extends Component {
                         getCurrentSong={this.getCurrentSong}
                         handleCustomPlay={this.handleCustomPlay}
                         customPlayMode={this.state.customPlayMode}
+                        avatarSong={this.state.avatarSong}
+                        nameSong={this.state.nameSong}
+                        artist={this.state.artist}
+                        duration={this.state.duration}
                     />
                 )}
                 {this.state.isShowModal && (

@@ -260,6 +260,14 @@
                     }
                 }
             }
+
+            .single-ep-section {
+                @include flex(space-between, center);
+            }
+
+            .album-section {
+                margin: 0 3%;
+            }
         }
     }
 }

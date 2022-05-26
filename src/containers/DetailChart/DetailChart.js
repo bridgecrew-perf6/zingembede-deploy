@@ -21,7 +21,11 @@ class DetailChart extends Component {
             playMusic: false,
             idSong: null,
             customPlayMode: false,
-            isLoading: false
+            isLoading: false,
+            avatarSong: null,
+            nameSong: null,
+            artist: null,
+            duration: null,
         }
     }
     async componentDidMount() {
@@ -53,7 +57,11 @@ class DetailChart extends Component {
         this.props.refreshPlay('2')
         this.setState({
             idSong: item.encodeId,
-            playMusic: true
+            playMusic: true,
+            artist: item.artistsNames,
+            nameSong: item.title,
+            avatarSong: item.thumbnail,
+            duration: item.duration,
         })
     }
     getCurrentSong = (id) => {
@@ -63,11 +71,15 @@ class DetailChart extends Component {
     }
     handleCustomPlay = (playlistSong) => {
         if (playlistSong) {
-            let randomIndexSong = (Math.random() * playlistSong.length - 1).toFixed(0)
+            let randomIndexSong = (Math.random() * (playlistSong.length - 1)).toFixed(0)
             this.setState({
                 idSong: playlistSong[randomIndexSong].encodeId,
                 playMusic: true,
-                customPlayMode: true
+                customPlayMode: true,
+                avatarSong: playlistSong[randomIndexSong].thumbnail,
+                nameSong: playlistSong[randomIndexSong].title,
+                artist: playlistSong[randomIndexSong].artistsNames,
+                duration: playlistSong[randomIndexSong].duration,
             })
         }
     }
@@ -110,6 +122,10 @@ class DetailChart extends Component {
                     idSong={this.state.idSong}
                     type={4}
                     album={playlist}
+                    avatarSong={this.state.avatarSong}
+                    nameSong={this.state.nameSong}
+                    artist={this.state.artist}
+                    duration={this.state.duration}
                     getCurrentSong={this.getCurrentSong}
                     handleCustomPlay={this.handleCustomPlay}
                     customPlayMode={this.state.customPlayMode}

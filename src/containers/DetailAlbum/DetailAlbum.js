@@ -20,6 +20,10 @@ class DetailAlbum extends Component {
             isShowPlayButon: false, // show/hide button play in box avatar
             playlistSong: null, //list songs of album
             idSong: null, // id selected song
+            avatarSong: null,
+            nameSong: null,
+            artist: null,
+            duration: null,
             playMusic: false, // hide/show player music
             playCD: 'start', // CD animation
             customPlayMode: false,
@@ -133,9 +137,14 @@ class DetailAlbum extends Component {
         }
     }
     handlePlayMusic = (item) => {
+        // console.log(item);
         this.props.refreshPlay('1')
         this.setState({
             idSong: item.encodeId,
+            artist: item.artistsNames,
+            nameSong: item.title,
+            avatarSong: item.thumbnail,
+            duration: item.duration,
             playMusic: true
         })
     }
@@ -160,6 +169,10 @@ class DetailAlbum extends Component {
             let randomIndexSong = Math.round(Math.random() * playlistSong.length - 1, 0)
             this.setState({
                 idSong: playlistSong[randomIndexSong].encodeId,
+                avatarSong: playlistSong[randomIndexSong].thumbnail,
+                nameSong: playlistSong[randomIndexSong].title,
+                artist: playlistSong[randomIndexSong].artistsNames,
+                duration: playlistSong[randomIndexSong].duration,
                 playMusic: true,
                 customPlayMode: true
             })
@@ -348,7 +361,7 @@ class DetailAlbum extends Component {
                                             <i className="fa-solid fa-music opty-5"></i>
                                             <div className="box-img"><img src={item.thumbnail} alt="img" /></div>
                                             <div className="info-song">
-                                                <div className="title-song">{item.title}</div>
+                                                <div className={this.state.idSong === item.encodeId ? 'title-song-selected' : ''}>{item.title}</div>
                                             </div>
                                         </div>
                                         <div className="album-detail opty-5">{item.artistsNames}</div>
@@ -388,6 +401,10 @@ class DetailAlbum extends Component {
                     type={4}
                     album={playlistSong}
                     idSong={this.state.idSong}
+                    avatarSong={this.state.avatarSong}
+                    nameSong={this.state.nameSong}
+                    artist={this.state.artist}
+                    duration={this.state.duration}
                     handleRotateCD={this.handleRotateCD}
                     getCurrentSong={this.getCurrentSong}
                     handleCustomPlay={this.handleCustomPlay}

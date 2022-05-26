@@ -158,7 +158,7 @@ class PlayListWithoutCD extends Component {
                                     {rank && <div className="rank">{index + 1}</div>}
                                     <div className="box-img"><img src={item.thumbnail} alt="img" /></div>
                                     <div className="info-song">
-                                        <div className="title-song">{item.title}</div>
+                                        <div className={idSong === item.encodeId ? 'title-song-selected' : ''}>{item.title}</div>
                                     </div>
                                 </div>
                                 <div className="album-detail opty-5">{item.artistsNames}</div>

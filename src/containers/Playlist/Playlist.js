@@ -25,7 +25,11 @@ class Playlist extends Component {
             createdAt: null,
             playMusic: false,
             customPlayMode: false,
-            isLoading: false
+            isLoading: false,
+            avatarSong: null,
+            nameSong: null,
+            artist: null,
+            duration: null,
         }
     }
 
@@ -113,7 +117,11 @@ class Playlist extends Component {
         this.props.refreshPlay('9')
         this.setState({
             idSong: item.encodeId,
-            playMusic: true
+            playMusic: true,
+            artist: item.artistsNames,
+            nameSong: item.title,
+            avatarSong: item.thumbnail,
+            duration: item.duration,
         })
     }
     goEditName = () => {
@@ -186,7 +194,11 @@ class Playlist extends Component {
             this.setState({
                 idSong: playlistSong[randomIndexSong].encodeId,
                 playMusic: true,
-                customPlayMode: true
+                customPlayMode: true,
+                avatarSong: playlistSong[randomIndexSong].thumbnail,
+                nameSong: playlistSong[randomIndexSong].title,
+                artist: playlistSong[randomIndexSong].artistsNames,
+                duration: playlistSong[randomIndexSong].duration,
             })
         }
     }
@@ -251,6 +263,10 @@ class Playlist extends Component {
                     getCurrentSong={this.getCurrentSong}
                     handleCustomPlay={this.handleCustomPlay}
                     customPlayMode={this.state.customPlayMode}
+                    avatarSong={this.state.avatarSong}
+                    nameSong={this.state.nameSong}
+                    artist={this.state.artist}
+                    duration={this.state.duration}
                 />}
                 {this.state.isLoading && <Loading2 />}
             </Fragment>

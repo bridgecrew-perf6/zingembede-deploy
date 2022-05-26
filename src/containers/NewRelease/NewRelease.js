@@ -20,7 +20,11 @@ class NewRelease extends Component {
             idSong: null,
             playMusic: false,
             customPlayMode: false,
-            isLoading: false
+            isLoading: false,
+            avatarSong: null,
+            nameSong: null,
+            artist: null,
+            duration: null,
         }
     }
     async componentDidMount() {
@@ -51,7 +55,11 @@ class NewRelease extends Component {
         this.props.refreshPlay('7')
         this.setState({
             idSong: item.encodeId,
-            playMusic: true
+            playMusic: true,
+            artist: item.artistsNames,
+            nameSong: item.title,
+            avatarSong: item.thumbnail,
+            duration: item.duration,
         })
     }
     getCurrentSong = (id) => {
@@ -65,7 +73,11 @@ class NewRelease extends Component {
             this.setState({
                 idSong: playlistSong[randomIndexSong].encodeId,
                 playMusic: true,
-                customPlayMode: true
+                customPlayMode: true,
+                avatarSong: playlistSong[randomIndexSong].thumbnail,
+                nameSong: playlistSong[randomIndexSong].title,
+                artist: playlistSong[randomIndexSong].artistsNames,
+                duration: playlistSong[randomIndexSong].duration,
             })
         }
     }
@@ -101,6 +113,10 @@ class NewRelease extends Component {
                     getCurrentSong={this.getCurrentSong}
                     handleCustomPlay={this.handleCustomPlay}
                     customPlayMode={this.state.customPlayMode}
+                    avatarSong={this.state.avatarSong}
+                    nameSong={this.state.nameSong}
+                    artist={this.state.artist}
+                    duration={this.state.duration}
                 />}
                 {this.state.isLoading && <Loading2 />}
             </>

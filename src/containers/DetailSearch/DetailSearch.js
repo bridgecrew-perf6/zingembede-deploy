@@ -18,7 +18,11 @@ class DetailSearch extends Component {
             playMusic: false,
             customPlayMode: false,
             type: null,
-            isLoading: false
+            isLoading: false,
+            avatarSong: null,
+            nameSong: null,
+            artist: null,
+            duration: null,
         }
     }
     async componentDidMount() {
@@ -59,7 +63,11 @@ class DetailSearch extends Component {
         this.props.refreshPlay('6')
         this.setState({
             idSong: item.encodeId,
-            playMusic: true
+            playMusic: true,
+            artist: item.artistsNames,
+            nameSong: item.title,
+            avatarSong: item.thumbnail,
+            duration: item.duration,
         })
     }
     getCurrentSong = id => {
@@ -73,16 +81,24 @@ class DetailSearch extends Component {
             this.setState({
                 idSong: playlistSong[randomIndexSong].encodeId,
                 playMusic: true,
-                customPlayMode: true
+                customPlayMode: true,
+                avatarSong: playlistSong[randomIndexSong].thumbnail,
+                nameSong: playlistSong[randomIndexSong].title,
+                artist: playlistSong[randomIndexSong].artistsNames,
+                duration: playlistSong[randomIndexSong].duration,
             })
         }
     }
-    handlePlaySong = (type, idSong) => {
+    handlePlaySong = (type, item) => {
         if (type === "song")
             this.setState({
-                type: 4,
+                type: 1,
                 playMusic: true,
-                idSong: idSong
+                idSong: item.encodeId,
+                artist: item.artistsNames,
+                nameSong: item.title,
+                avatarSong: item.thumbnail,
+                duration: item.duration,
             })
     }
     render() {
@@ -111,7 +127,7 @@ class DetailSearch extends Component {
                                                         onClick={() =>
                                                             this.handlePlaySong(
                                                                 dataSearch.top.objectType,
-                                                                dataSearch.top.encodeId
+                                                                dataSearch.top
                                                             )
                                                         }
                                                         className="play-btn"
@@ -175,6 +191,10 @@ class DetailSearch extends Component {
                         getCurrentSong={this.getCurrentSong}
                         handleCustomPlay={this.handleCustomPlay}
                         customPlayMode={this.state.customPlayMode}
+                        avatarSong={this.state.avatarSong}
+                        nameSong={this.state.nameSong}
+                        artist={this.state.artist}
+                        duration={this.state.duration}
                     />
                 )}
                 {this.state.isLoading && <Loading2 />}

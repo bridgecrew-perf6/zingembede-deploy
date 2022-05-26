@@ -77,6 +77,19 @@
                     opacity: 0.5;
                 }
             }
+
+            span {
+                .loading-button {
+                    border: 1px solid rgb(255, 255, 255);
+                    display: inline-block;
+                    box-sizing: border-box;
+                    padding: 4px;
+                    display: flex;
+                    align-items: center;
+                    border-radius: 50%;
+                    margin: 0 16px;
+                }
+            }
         }
 
         .wrap-progressbar {
@@ -99,7 +112,8 @@
                 .elapse {
                     width: 0;
                     height: 100%;
-                    background-image: linear-gradient(to left, red, orange, yellow, green, blue, indigo, violet);
+                    background-color: #873F77;
+                    border-radius: 2.5px;
                 }
             }
 

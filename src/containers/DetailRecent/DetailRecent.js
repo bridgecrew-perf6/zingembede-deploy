@@ -5,6 +5,7 @@ import { handleGetRecent } from '../../services/userService';
 import PlayListWihoutCD from '../PlayListWithoutCD/PlayListWithoutCD';
 import * as actions from '../../store/actions'
 import Loading2 from '../Loading2/Loading2';
+import PlayerMusic2 from '../BoxPlayMusic/PlayerMusic2';
 
 
 
@@ -18,7 +19,13 @@ class DetailRecent extends Component {
             dataAlbum: null,
             dataSongs: null,
             idSong: null,
-            isLoading: false
+            isLoading: false,
+            avatarSong: null,
+            nameSong: null,
+            artist: null,
+            duration: null,
+            playMusic: false,
+            customPlayMode: false
         }
     }
     async componentDidMount() {
@@ -64,8 +71,31 @@ class DetailRecent extends Component {
         this.props.refreshPlay('8') //dispatch the signal in order to determine which component is playing the player
         this.setState({
             idSong: item.encodeId,
-            playMusic: true
+            playMusic: true,
+            artist: item.artistsNames,
+            nameSong: item.title,
+            avatarSong: item.thumbnail,
+            duration: item.duration,
         })
+    }
+    getCurrentSong = (id) => {
+        this.setState({
+            idSong: id
+        })
+    }
+    handleCustomPlay = (playlistSong) => {
+        if (playlistSong) {
+            let randomIndexSong = (Math.random() * (playlistSong.length - 1)).toFixed(0)
+            this.setState({
+                idSong: playlistSong[randomIndexSong].encodeId,
+                playMusic: true,
+                customPlayMode: true,
+                avatarSong: playlistSong[randomIndexSong].thumbnail,
+                nameSong: playlistSong[randomIndexSong].title,
+                artist: playlistSong[randomIndexSong].artistsNames,
+                duration: playlistSong[randomIndexSong].duration,
+            })
+        }
     }
     render() {
         let { dataSongs, dataAlbum } = this.state
@@ -103,6 +133,18 @@ class DetailRecent extends Component {
                     </div>
                 </div>
                 {this.state.isLoading && <Loading2 />}
+                {this.state.playMusic && <PlayerMusic2
+                    idSong={this.state.idSong}
+                    type={4}
+                    album={this.state.dataSongs}
+                    avatarSong={this.state.avatarSong}
+                    nameSong={this.state.nameSong}
+                    artist={this.state.artist}
+                    duration={this.state.duration}
+                    getCurrentSong={this.getCurrentSong}
+                    handleCustomPlay={this.handleCustomPlay}
+                    customPlayMode={this.state.customPlayMode}
+                />}
             </>
         )
     }

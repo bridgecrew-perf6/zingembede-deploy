@@ -8,7 +8,7 @@
     width: 100%;
 
     .wrap-items-5 {
-        @include flex(center, center);
+        @include flex(flex-start, center);
         width: 100%;
         margin: 16px auto 32px;
         flex-wrap: wrap;

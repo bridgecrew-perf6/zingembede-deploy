@@ -13,11 +13,11 @@
         position: relative;
 
         &:hover {
-            background-color: rgba(48, 48, 48, 0.5);
+            background-color: rgba(51, 51, 51, 0.8);
         }
 
         &.selected-song {
-            background-color: rgba(48, 48, 48, 0.5);
+            background-color: rgba(51, 51, 51, 0.8);
         }
 
         &:first-child {
@@ -80,8 +80,8 @@
             .info-song {
                 margin-left: 8px;
 
-                .artist-song {
-                    font-size: 14px;
+                .title-song-selected {
+                    color: #d276f7;
                 }
             }
 

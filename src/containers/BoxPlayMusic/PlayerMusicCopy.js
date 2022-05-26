@@ -1,12 +1,11 @@
 import "./PlayerMusic.scss"
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { getSongByIdService, handleLikedSong, getLikedSong, deleteLikedSong } from "../../services/userService"
+import { getSongByIdService, getInfoSong, handleLikedSong, getLikedSong, deleteLikedSong } from "../../services/userService"
 import Swal from "sweetalert2"
 import * as actions from "../../store/actions"
 import { withRouter } from "react-router"
 import Loading2 from "../Loading2/Loading2"
-import { RotatingLines } from 'react-loader-spinner'
 
 var idInterval = null
 
@@ -24,27 +23,15 @@ class PlayerMusic2 extends Component {
             isNext: true,
             isPrev: true,
             idSong: null,
-            currentTimeSong: '00:00',
+            currentTimeSong: 0,
             heart: false,
-            isLoading: false,
-            isLoadingSrc: false,
-            nameSong: null,
-            avatarSong: null,
-            artist: null,
-            duration: null,
-            changeDirect: false
+            isLoading: false
         }
         this.audioEl = new Audio("https://ia800206.us.archive.org/16/items/SilentRingtone/silence_64kb.mp3") // demo 1 any source mp3 to avoid error init new audio
     }
 
     async componentDidMount() {
-        this.setState({
-            nameSong: this.props.nameSong,
-            artist: this.props.artist,
-            avatarSong: this.props.avatarSong,
-            duration: this.props.duration
-        })
-        await this.handleGetFullSongInfo(this.props.idSong)
+        this.handleGetFullSongInfo(this.props.idSong)
         this.props.playPlayer() // set state play for redux store
         let user = JSON.parse(localStorage.getItem('user'))
         if (user) {
@@ -67,17 +54,7 @@ class PlayerMusic2 extends Component {
     async componentDidUpdate(prevProps) {
         //update song
         if (prevProps.idSong !== this.props.idSong) {
-            if (!this.state.changeDirect) {
-                this.setState({
-                    isPlaying: false,
-                    nameSong: this.props.nameSong,
-                    artist: this.props.artist,
-                    avatarSong: this.props.avatarSong,
-                    duration: this.props.duration,
-                    currentTimeSong: '00:00',
-                })
-            }
-            await this.handleGetFullSongInfo(this.props.idSong)
+            this.handleGetFullSongInfo(this.props.idSong)
             this.props.playPlayer()
             let user = JSON.parse(localStorage.getItem('user'))
             if (user) {
@@ -99,7 +76,12 @@ class PlayerMusic2 extends Component {
         }
         //update status play/pause the song
         if (prevProps.isPlayingRedux !== this.props.isPlayingRedux) {
-            this.playMusic(this.props.isPlayingRedux)
+            this.setState(
+                {
+                    isPlaying: this.props.isPlayingRedux
+                },
+                () => this.playMusic(this.state.isPlaying)
+            )
         }
     }
     componentWillUnmount() {
@@ -107,28 +89,24 @@ class PlayerMusic2 extends Component {
     }
     //get link of song and detail data of song then set states
     handleGetFullSongInfo = async idSong => {
-        this.audioEl.pause()
-        this.audioEl.currentTime = 0
-        this.setState({
-            isLoadingSrc: true,
-            changeDirect: false
-        })
-        let response = await getSongByIdService(idSong)
+        let [response, detailSong] = await Promise.all([getSongByIdService(idSong), getInfoSong(idSong)])
         if (response && response.data.err === 0) {
             this.setState(
                 {
                     linkPlaySong: response.data.data,
-                    idSong: idSong,
-                }, async () => {
+                    idSong: idSong
+                },
+                () => {
                     if (this.state.linkPlaySong) {
                         this.handleEnableButtonNextNPrev() // check enable/disable buttons next and prev
+                        this.audioEl.load()
                         this.audioEl.src = this.state.linkPlaySong["128"]
-                        await this.playMusic(true)
+                        setTimeout(() => this.playMusic(true), 1000)
                     }
                 }
             )
         } else {
-            this.audioEl.pause()
+            //alert VIP song
             this.setState(
                 {
                     isPlaying: false,
@@ -144,11 +122,15 @@ class PlayerMusic2 extends Component {
                 }
             )
         }
+        if (detailSong && detailSong.data.err === 0) {
+            this.setState({
+                detailSong: detailSong.data.data
+            })
+        }
     }
     // check enable/disable buttons next and prev
     handleEnableButtonNextNPrev = () => {
-        let indexPrevAndNext = this.getIndexNextAndPrevSong()
-        if (this.props.type !== 1 && indexPrevAndNext) {
+        if (this.props.type !== 1) {
             let indexNext = this.getIndexNextAndPrevSong()[1]
             let indexPrev = this.getIndexNextAndPrevSong()[0]
             if (this.props.album && this.props.album.length <= indexNext) {
@@ -175,14 +157,23 @@ class PlayerMusic2 extends Component {
     playMusic = async flag => {
         if (flag) {
             this.setState({
-                isPlaying: true,
-                isLoadingSrc: false
+                isPlaying: true
             })
+            let isPlaying =
+                this.audioEl.currentTime > 0 &&
+                !this.audioEl.paused &&
+                !this.audioEl.ended &&
+                this.audioEl.readyState > this.audioEl.HAVE_CURRENT_DATA
+
+            if (!isPlaying) {
+                this.audioEl.play()
+            }
+
+            // await this.audioEl.play()
             if (this.props.type === 4) {
                 this.props.playPlayer() // sync status play/pause between components
                 if (this.props.handleRotateCD) this.props.handleRotateCD(true)
             }
-            await this.audioEl.play()
             window.requestAnimationFrame(this.handleAnimationProgress)
             this.updateCurrentTime()
 
@@ -226,9 +217,6 @@ class PlayerMusic2 extends Component {
         let positionClick = event.pageX
         this.audioEl.currentTime =
             ((positionClick - rectProgressbar.left) * this.audioEl.duration) / rectProgressbar.width
-        this.setState({
-            currentTimeSong: this.formatTimeMusic((this.audioEl.currentTime).toFixed(0))
-        })
         if (document.querySelector(".progress-bar") && document.querySelector(".elapse")) {
             document.querySelector(".elapse").style.width = `${positionClick - rectProgressbar.left}px`
             window.requestAnimationFrame(this.handleAnimationProgress)
@@ -274,60 +262,44 @@ class PlayerMusic2 extends Component {
         }
     }
     // go to the next song
-    handleNextSong = async () => {
+    handleNextSong = () => {
         if (this.state.isNext) {
             if (this.props.type !== 1) {
                 let indexNextSong = this.getIndexNextAndPrevSong ? this.getIndexNextAndPrevSong()[1] : NaN
                 if (this.props.album && indexNextSong) {
-                    if (indexNextSong < this.props.album.length) {
+                    if (!(indexNextSong >= this.props.album.length)) {
+                        this.handleGetFullSongInfo(this.props.album[indexNextSong].encodeId)
                         this.props.getCurrentSong(this.props.album[indexNextSong].encodeId)
-                        this.setState({
-                            nameSong: this.props.album[indexNextSong].title,
-                            artist: this.props.album[indexNextSong].artistNames,
-                            avatarSong: this.props.album[indexNextSong].thumbnail,
-                            duration: this.props.album[indexNextSong].duration,
-                            changeDirect: true,
-                            currentTimeSong: '00:00',
-                            isPlaying: false
-                        })
                     }
                 }
             }
+        } else {
+            Swal.fire({
+                title: "Oops!",
+                text: "Bài cuối cùng rôi",
+                icon: "warning",
+                confirmButtonText: "Tôi biết rồi"
+            })
+            setTimeout(() => this.playMusic(false), 1000)
         }
     }
-    // // back to the previous song
+    // back to the previous song
     handlePrevSong = async () => {
         if (this.props.type !== 1 && this.state.isPrev) {
             let indexPrevSong = this.getIndexNextAndPrevSong()[0]
-            if (this.props.album && '' + indexPrevSong) {
-                if (indexPrevSong > -1) {
+            if (this.props.album) {
+                if (indexPrevSong >= 0) {
+                    await this.handleGetFullSongInfo(this.props.album[indexPrevSong].encodeId)
                     this.props.getCurrentSong(this.props.album[indexPrevSong].encodeId)
-                    this.setState({
-                        nameSong: this.props.album[indexPrevSong].title,
-                        artist: this.props.album[indexPrevSong].artistNames,
-                        avatarSong: this.props.album[indexPrevSong].thumbnail,
-                        duration: this.props.album[indexPrevSong].duration,
-                        changeDirect: true,
-                        currentTimeSong: '00:00',
-                        isPlaying: false
-                    })
                 }
             }
         }
     }
     handleStartAgain = async () => {
         if (this.props.type !== 1) {
-            this.props.getCurrentSong(this.props.album[0].encodeId)
-            this.setState({
-                nameSong: this.props.album[0].title,
-                artist: this.props.album[0].artistNames,
-                avatarSong: this.props.album[0].thumbnail,
-                duration: this.props.album[0].duration,
-                changeDirect: true,
-                currentTimeSong: '00:00',
-                isPlaying: false
-            })
+            await this.handleGetFullSongInfo(this.props.album[0].encodeId)
             this.props.playPlayer()
+            this.props.getCurrentSong(this.props.album[0].encodeId)
         }
     }
     // convert seconds to hh/mm/ss
@@ -350,7 +322,7 @@ class PlayerMusic2 extends Component {
             if (this.audioEl.currentTime < this.audioEl.duration) {
                 idInterval = setInterval(() => {
                     this.setState({
-                        currentTimeSong: this.formatTimeMusic(this.audioEl.currentTime.toFixed(0))
+                        currentTimeSong: this.audioEl.currentTime.toFixed(0)
                     })
                 }, 1000)
             } else {
@@ -389,83 +361,82 @@ class PlayerMusic2 extends Component {
     }
 
     render() {
-        let { nameSong, avatarSong, duration, artist } = this.state
-        // console.log({ nameSong, avatarSong, duration, artist });
+        let { detailSong } = this.state
 
         return (
             <>
                 <div className="player-music-container">
-                    <div className="info-song">
-                        <div className="avatar-song">
-                            <img src={avatarSong} alt="avatar-song" />
-                        </div>
-                        <div className="name-song">
-                            <div className="name">{nameSong}</div>
-                            <div className="author-song">{artist}</div>
-                        </div>
-                        <div className="add-libra">
-                            {this.state.heart
-                                ? <i title="Bỏ thích bài hát này" onClick={() => this.handlDisikeSong()} className="fa-solid icon fa-heart"></i>
-                                : <i onClick={() => this.handleLikeSong()} title="Yêu thích bài hát này" className="fa-regular fa-heart"></i>}
-
-                        </div>
-                    </div>
-                    <div className="player">
-                        <div className="buttons-player">
-                            <i
-                                onClick={() => {
-                                    if (this.props.type === 4) {
-                                        this.props.handleCustomPlay(this.props.album)
-                                    }
-                                }}
-                                title="Bật phát ngẫu nhiên"
-                                className={
-                                    this.props.type === 1 ? "fa-solid disabled fa-shuffle" : "fa-solid fa-shuffle"
-                                }
-                            ></i>
-                            <i
-                                onClick={() => this.handlePrevSong()}
-                                className={
-                                    this.props.type === 1
-                                        ? "fa-solid disabled fa-backward-step"
-                                        : this.state.isPrev
-                                            ? "fa-solid fa-backward-step"
-                                            : "fa-solid disabled fa-backward-step"
-                                }
-                            ></i>
-                            <span onClick={() => this.playMusic(!this.state.isPlaying)}>
-                                {this.state.isPlaying
-                                    ? <i className="fa-solid fa-circle-pause"></i>
-                                    : this.state.isLoadingSrc
-                                        ? <span title="Loading the music source" className="loading-button"><RotatingLines strokeColor="#873F77" width="20" /></span>
-                                        : <i className="fa-solid fa-circle-play"></i>}
-                            </span>
-                            <i
-                                onClick={() => this.handleNextSong()}
-                                className={
-                                    this.props.type === 1
-                                        ? "fa-solid disabled fa-forward-step"
-                                        : this.state.isNext
-                                            ? "fa-solid fa-forward-step"
-                                            : "fa-solid disabled fa-forward-step"
-                                }
-                            ></i>
-                            <i
-                                title="Bật lại phát tất cả"
-                                onClick={() => this.handleStartAgain()}
-                                className={
-                                    this.props.type === 1 ? "fa-solid disabled fa-repeat" : "fa-solid fa-repeat"
-                                }
-                            ></i>
-                        </div>
-                        <div className="wrap-progressbar">
-                            <span className="time-start">{this.state.currentTimeSong}</span>
-                            <div onClick={event => this.handleOnClickProgressBar(event)} className="progress-bar">
-                                <div className="elapse"></div>
+                    {detailSong && <>
+                        <div className="info-song">
+                            <div className="avatar-song">
+                                <img src={detailSong.thumbnail} alt="avatar-song" />
                             </div>
-                            <span className="time-end">{this.formatTimeMusic(duration)}</span>
+                            <div className="name-song">
+                                <div className="name">{detailSong.title}</div>
+                                <div className="author-song">{detailSong.artistsNames}</div>
+                            </div>
+                            <div className="add-libra">
+                                {this.state.heart
+                                    ? <i title="Bỏ thích bài hát này" onClick={() => this.handlDisikeSong()} className="fa-solid icon fa-heart"></i>
+                                    : <i onClick={() => this.handleLikeSong()} title="Yêu thích bài hát này" className="fa-regular fa-heart"></i>}
+
+                            </div>
                         </div>
-                    </div>
+                        <div className="player">
+                            <div className="buttons-player">
+                                <i
+                                    onClick={() => {
+                                        if (this.props.type === 4) {
+                                            this.props.handleCustomPlay(this.props.album)
+                                        }
+                                    }}
+                                    title="Bật phát ngẫu nhiên"
+                                    className={
+                                        this.props.type === 1 ? "fa-solid disabled fa-shuffle" : "fa-solid fa-shuffle"
+                                    }
+                                ></i>
+                                <i
+                                    onClick={() => this.handlePrevSong()}
+                                    className={
+                                        this.props.type === 1
+                                            ? "fa-solid disabled fa-backward-step"
+                                            : this.state.isPrev
+                                                ? "fa-solid fa-backward-step"
+                                                : "fa-solid disabled fa-backward-step"
+                                    }
+                                ></i>
+                                <span onClick={() => this.playMusic(!this.state.isPlaying)}>
+                                    {this.state.isPlaying
+                                        ? <i className="fa-solid fa-circle-pause"></i>
+                                        : <i className="fa-solid fa-circle-play"></i>}
+                                </span>
+                                <i
+                                    onClick={() => this.handleNextSong()}
+                                    className={
+                                        this.props.type === 1
+                                            ? "fa-solid disabled fa-forward-step"
+                                            : this.state.isNext
+                                                ? "fa-solid fa-forward-step"
+                                                : "fa-solid disabled fa-forward-step"
+                                    }
+                                ></i>
+                                <i
+                                    title="Bật lại phát tất cả"
+                                    onClick={() => this.handleStartAgain()}
+                                    className={
+                                        this.props.type === 1 ? "fa-solid disabled fa-repeat" : "fa-solid fa-repeat"
+                                    }
+                                ></i>
+                            </div>
+                            <div className="wrap-progressbar">
+                                <span className="time-start">{this.formatTimeMusic(this.state.currentTimeSong)}</span>
+                                <div onClick={event => this.handleOnClickProgressBar(event)} className="progress-bar">
+                                    <div className="elapse"></div>
+                                </div>
+                                <span className="time-end">{this.formatTimeMusic(detailSong.duration)}</span>
+                            </div>
+                        </div>
+                    </>}
                     <div className="volumn">
                         <span onClick={() => this.ToggleMute()}>
                             {this.state.currentVolume === 0 ? (
