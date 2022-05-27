@@ -317,7 +317,7 @@ class DetailAlbum extends Component {
                                 </div>
                                 {!this.state.isLiked
                                     ? <div onClick={() => this.toggleLike()} className="like">Yêu thích</div>
-                                    : <div className='dislike' onClick={() => this.toggleLike()}>Bạn đã thích album này ~</div>}
+                                    : <div className='dislike' onClick={() => this.toggleLike()}><i className="fa-solid fa-circle-check"></i>Bạn đã thích album này ~</div>}
                             </div>
                             {!this.props.isPlaying || !this.state.playMusic
                                 ? <button

@@ -16,7 +16,11 @@ class RightSideBar extends Component {
         this.state = {
             dataRecent: null,
             idSong: null,
-            playMusic: false
+            playMusic: false,
+            avatarSong: null,
+            nameSong: null,
+            artist: null,
+            duration: null,
         }
     }
     async componentDidMount() {
@@ -67,7 +71,11 @@ class RightSideBar extends Component {
         this.props.refreshPlay('0')
         this.setState({
             idSong: item.idSong,
-            playMusic: true
+            playMusic: true,
+            artist: item.artistSong,
+            nameSong: item.titleSong,
+            avatarSong: item.avatarSong,
+            duration: item.duartion,
         })
     }
     render() {
@@ -106,6 +114,10 @@ class RightSideBar extends Component {
                 {this.state.playMusic && <PlayerMusic2
                     type={1}
                     idSong={this.state.idSong}
+                    avatarSong={this.state.avatarSong}
+                    nameSong={this.state.nameSong}
+                    artist={this.state.artist}
+                    duration={this.state.duration}
                 />}
             </>
         )

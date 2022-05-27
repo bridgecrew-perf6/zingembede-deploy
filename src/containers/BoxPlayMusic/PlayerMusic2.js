@@ -32,35 +32,38 @@ class PlayerMusic2 extends Component {
             avatarSong: null,
             artist: null,
             duration: null,
-            changeDirect: false
+            changeDirect: false,
         }
-        this.audioEl = new Audio("https://ia800206.us.archive.org/16/items/SilentRingtone/silence_64kb.mp3") // demo 1 any source mp3 to avoid error init new audio
+        this.audioEl = new Audio("https://ia800206.us.archive.org/16/items/SilentRingtone/silence_64kb.mp3") // demo 1 any source mp3 to avoid error init new audio (silent mp3)
+        this.numberErrSongs = 0 // if number of the songs that cant play successively (in series) is more than 2, then stop auto next the song
     }
 
     async componentDidMount() {
-        this.setState({
-            nameSong: this.props.nameSong,
-            artist: this.props.artist,
-            avatarSong: this.props.avatarSong,
-            duration: this.props.duration
-        })
-        await this.handleGetFullSongInfo(this.props.idSong)
-        this.props.playPlayer() // set state play for redux store
-        let user = JSON.parse(localStorage.getItem('user'))
-        if (user) {
-            let response = await getLikedSong({
-                idUser: user.id,
-                idSong: this.props.idSong,
-                type: 'song'
+        if (this.props.idSong) {
+            this.setState({
+                nameSong: this.props.nameSong,
+                artist: this.props.artist,
+                avatarSong: this.props.avatarSong,
+                duration: this.props.duration
             })
-            if (response && response.data.err === 0) {
-                this.setState({
-                    heart: true
+            await this.handleGetFullSongInfo(this.props.idSong)
+            this.props.playPlayer() // set state play for redux store
+            let user = JSON.parse(localStorage.getItem('user'))
+            if (user) {
+                let response = await getLikedSong({
+                    idUser: user.id,
+                    idSong: this.props.idSong,
+                    type: 'song'
                 })
-            } else {
-                this.setState({
-                    heart: false
-                })
+                if (response && response.data.err === 0) {
+                    this.setState({
+                        heart: true
+                    })
+                } else {
+                    this.setState({
+                        heart: false
+                    })
+                }
             }
         }
     }
@@ -115,6 +118,7 @@ class PlayerMusic2 extends Component {
         })
         let response = await getSongByIdService(idSong)
         if (response && response.data.err === 0) {
+            this.numberErrSongs = 0
             this.setState(
                 {
                     linkPlaySong: response.data.data,
@@ -129,20 +133,46 @@ class PlayerMusic2 extends Component {
             )
         } else {
             this.audioEl.pause()
+            this.numberErrSongs += 1
             this.setState(
                 {
                     isPlaying: false,
-                    linkPlaySong: ""
-                },
-                () => {
-                    Swal.fire({
-                        title: "Oops!",
-                        text: response.data.msg,
-                        icon: "warning",
-                        confirmButtonText: "Tôi biết rồi"
-                    })
+                    linkPlaySong: "",
+                    idSong: idSong,
+                })
+            //if number of the songs that cant play successively (in series) is more than 2, then stop auto next the song
+            if (this.numberErrSongs > 2) {
+                this.setState({
+                    isPlaying: false
+                })
+                clearInterval(idInterval) // combo clear interval
+                idInterval = 0
+                if (!this.audioEl.paused) this.audioEl.pause()
+                if (this.props.type === 4) {
+                    this.props.pausePlayer()
+                    if (this.props.handleRotateCD) this.props.handleRotateCD(false)
                 }
-            )
+            } else {
+                Swal.fire({
+                    title: "Oops!",
+                    text: response.data.msg,
+                    icon: "warning",
+                    confirmButtonText: "Tôi biết rồi"
+                }).then(() => {
+                    this.audioEl.pause()
+                    this.audioEl.load()
+                    if (this.props.type === '4') {
+                        this.handleNextSong()
+                    } else {
+                        this.setState({
+                            isPlaying: false
+                        })
+                        clearInterval(idInterval) // combo clear interval
+                        idInterval = 0
+                        if (!this.audioEl.paused) this.audioEl.pause()
+                    }
+                })
+            }
         }
     }
     // check enable/disable buttons next and prev
@@ -153,7 +183,7 @@ class PlayerMusic2 extends Component {
             let indexPrev = this.getIndexNextAndPrevSong()[0]
             if (this.props.album && this.props.album.length <= indexNext) {
                 this.setState({
-                    isNext: false
+                    isNext: false,
                 })
             } else {
                 this.setState({
@@ -188,12 +218,14 @@ class PlayerMusic2 extends Component {
 
             //handle audio END
             this.audioEl.addEventListener("ended", () => {
-                if (this.props.customPlayMode) {
-                    this.props.handleCustomPlay(this.props.album)
-                } else {
-                    this.audioEl.pause()
-                    this.audioEl.load()
-                    setTimeout(() => this.handleNextSong(), 1000)
+                if (this.numberErrSongs <= 2) {
+                    if (this.props.customPlayMode) {
+                        this.props.handleCustomPlay(this.props.album)
+                    } else {
+                        this.audioEl.pause()
+                        this.audioEl.load()
+                        setTimeout(() => this.handleNextSong(), 1000)
+                    }
                 }
             })
         } else {
@@ -277,7 +309,9 @@ class PlayerMusic2 extends Component {
     handleNextSong = async () => {
         if (this.state.isNext) {
             if (this.props.type !== 1) {
-                let indexNextSong = this.getIndexNextAndPrevSong ? this.getIndexNextAndPrevSong()[1] : NaN
+                let indexSong = this.getIndexNextAndPrevSong()
+                let indexNextSong = indexSong ? indexSong[1] : NaN
+                this.setState({ idSong: this.props.album[indexNextSong].encodeId })
                 if (this.props.album && indexNextSong) {
                     if (indexNextSong < this.props.album.length) {
                         this.props.getCurrentSong(this.props.album[indexNextSong].encodeId)
@@ -293,12 +327,24 @@ class PlayerMusic2 extends Component {
                     }
                 }
             }
+        } else {
+            this.setState({
+                isPlaying: false
+            })
+            clearInterval(idInterval) // combo clear interval
+            idInterval = 0
+            if (!this.audioEl.paused) this.audioEl.pause()
+            if (this.props.type === 4) {
+                this.props.pausePlayer()
+                if (this.props.handleRotateCD) this.props.handleRotateCD(false)
+            }
         }
     }
     // // back to the previous song
     handlePrevSong = async () => {
         if (this.props.type !== 1 && this.state.isPrev) {
             let indexPrevSong = this.getIndexNextAndPrevSong()[0]
+            this.setState({ idSong: this.props.album[indexPrevSong].encodeId })
             if (this.props.album && '' + indexPrevSong) {
                 if (indexPrevSong > -1) {
                     this.props.getCurrentSong(this.props.album[indexPrevSong].encodeId)
@@ -390,7 +436,7 @@ class PlayerMusic2 extends Component {
 
     render() {
         let { nameSong, avatarSong, duration, artist } = this.state
-        // console.log({ nameSong, avatarSong, duration, artist });
+        // console.log(this.numberErrSongs);
 
         return (
             <>
