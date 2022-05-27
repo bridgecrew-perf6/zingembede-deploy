@@ -55,6 +55,30 @@ input {
 
 }
 
+.main {
+  @include moblie {
+    display: none;
+  }
+}
+
+.no-support {
+  display: none;
+
+  @include moblie {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    @include flex(center, center);
+    flex-direction: column;
+
+    i {
+      color: blue;
+      margin-bottom: 16px;
+      font-size: 30px;
+    }
+  }
+}
+
 .search {
   @include flex(center, flex-start)
 }
